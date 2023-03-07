@@ -1,72 +1,166 @@
-# Getting Started with Create React App
+[![Twitter][twitter-shield]][twitter-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!-- PROJECT LOGO -->
 
-## Available Scripts
+# 🔩 Duplicate Character Remover
 
-In the project directory, you can run:
+comming soon
 
-### `npm start`
+<!-- <br />
+<p align="center">
+  <a href="">
+    <img src="" alt="Logo" width="40%">
+  </a>
+    <h3 align="center">KajManage</h3>
+  <p align="center">
+  A Task Managing App, Track your work with time.
+    <br />
+    <a href=""><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="">View Demo</a>
+    ·
+    <a href="">Report Bug</a>
+    ·
+    <a href="">Request Feature</a>
+  </p>
+</p> -->
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<!-- TABLE OF CONTENTS -->
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# 🛒 Table of Contents
 
-### `npm test`
+[Contents](#table-of-contents)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [About The Project](#about-the-project)
+  - [Showcase](#showcase)
+  - [Built With](#built-with)
+  - [Extra Features](#extra-features)
+- [How to run](#how-to-run)
+- [Basic Structure of the Project](#basic-structure-of-the-project)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
-### `npm run build`
+<!-- ABOUT THE PROJECT -->
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📞 About The Project
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+comming soon
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## 📸 Showcase
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+comming soon
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<!-- <table align="center">
+    <tr>
+        <td>
+            <a href="#">
+                <p align="center">
+                    <img src="readme/homepage.png" alt="homepage">
+                    <p align="center">Home Page</p>
+                </p>
+            </a>
+        </td>
+    </tr>
+    </table>
+    <table align="center">
+    <tr>
+        <td>
+            <a href="#">
+                <p align="center">
+                    <img src="readme/table.png" alt="table view">
+                    <p align="center">Board View</p>
+                </p>
+            </a>
+        </td>
+        <td>
+            <a href="#">
+                <p align="center">
+                    <img src="readme/list.png" alt="list view">
+                    <p align="center">List View</p>
+                </p>
+            </a>
+        </td>
+    </tr>
+</table> -->
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🛠 Built With
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-## Learn More
+## ♨ Extra Features
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+comming soon
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🏃How to run
 
-### Code Splitting
+1. Make sure you have installed [pnpm](https://pnpm.io/installation)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+2. Install the dependencies
 
-### Analyzing the Bundle Size
+```bash
+pnpm i
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+3. Start the dev server
 
-### Making a Progressive Web App
+```bash
+pnpm dev
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+This will start the project at http://localhost:3000/
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 👷‍♂️ Basic Structure of the Project
 
-### Deployment
+```
+|
+|- .gihub             # github action files
+|- .husky             # Husky Config file
+|- public             # Any files within this directory will not be processed by Webpack but copied directly to the build folder.
+|- readme             # Contains all helper file for the README.md
+|- src:               # Contains all source code for the React application.
+    |
+    |- __test__       # contains test files
+    |- assets
+    |- components     # Contains all the components used within the app.
+    |- config         # DataBase connection configuration
+    |- pages          # Contains all the pages of the app.
+    |- styles         # Contains custom css files.
+    |- utils          # Contains all helper functions
+    |- App.js
+    |- index.js
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+<!-- More Information of subfolder. Go this [link🔗](https://github.com/Bivas-Biswas/kaj-manage/blob/main/subfolder_structure.md/)\
+Here You will be able to learn in depth details of the subfolders used in the project. -->
 
-### `npm run build` fails to minify
+## 🙏 Acknowledgements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+comming soon
 
-# react-ts-tailwind-template
+<!-- - 🔎 [ESLint](https://eslint.org/) is a static code analysis tool for identifying problematic patterns found in JavaScript code. It helped to me understand code bugs and specially Typescript Types 😊.
+
+- 💄 [Prettier](https://prettier.io/), a code formatter helped me maintain same style in whole codebase.
+- 💨 [Husky](https://typicode.github.io/husky/#/) a Git pre hooks. It helped to checks of all prettier, eslint test befor evry commit. -->
+
+<!-- - Lastly Acknowledge to me. How I managed all those packages. 💪 -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/Bivas-Biswas/kaj-manage.svg?style=for-the-badge
+[contributors-url]: https://github.com/Bivas-Biswas/kaj-manage/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Bivas-Biswas/kaj-manage.svg?style=for-the-badge
+[forks-url]: https://github.com/Bivas-Biswas/kaj-manage/network/members
+[stars-shield]: https://img.shields.io/github/stars/Bivas-Biswas/kaj-manage.svg?style=for-the-badge
+[stars-url]: https://github.com/Bivas-Biswas/kaj-manage/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Bivas-Biswas/kaj-manage.svg?style=for-the-badge
+[issues-url]: https://github.com/Bivas-Biswas/kaj-manage/issues
+[license-shield]: https://img.shields.io/github/license/Bivas-Biswas/kaj-manage.svg?style=for-the-badge
+[license-url]: https://github.com/Bivas-Biswas/kaj-manage/blob/master/LICENSE.txt
+[twitter-shield]: https://img.shields.io/badge/twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white
+[twitter-url]: https://www.linkedin.com/in/bivas-biswas-828a731b7/
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/bivas-biswas-828a731b7/
