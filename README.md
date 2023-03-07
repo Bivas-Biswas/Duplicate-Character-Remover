@@ -1,86 +1,72 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10403639&assignment_repo_type=AssignmentRepo)
-## Houseware
+# Getting Started with Create React App
 
-### Company information 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Houseware's vision is to empower the next generation of knowledge workers by putting the data warehouse in their hands, in the language they speak. Houseware is purpose-built for the Data Cloud’s untouched creators, empowering internal apps across organizations. 
+## Available Scripts
 
-### Why participate in an Octernship with Houseware
+In the project directory, you can run:
 
-Houseware is changing the way the data warehouse is leveraged, and we want you to help build Houseware! Our team came together to answer the singular question, "how can we flip the value of the data warehouse to the ones who really need it, to the ones who drive decisions". 
+### `npm start`
 
-In this role, you'll have the opportunity to work as a Frontend engineer with the Houseware team on multiple customer-facing projects. You'd be involved with delivering the optimal user experience for the end user, while taking complete ownership of engineering challenges - this would include communicating with the stakeholders, setting the right expectations, and ensuring top quality for the code & the product being shipped.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-### Octernship role description
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-We're looking for frontend developers to join the Houseware team. 
+### `npm test`
 
-We are hell-bent on building a forward-looking product, something that constantly pushes us to think by first principles and question assumptions, building a team that is agile in adapting and ever curious. While fast-paced execution is one of the prerequisites in this role, equally important is the ability to pause and take stock of where product/engineering is heading from a long-term perspective. Your initiative is another thing that we would expect to shine through here, as you continuously navigate through ambiguous waters while working with vigor on open-ended questions - all to solve problems for and empathize with the end users.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-| Octernship info  | Timelines and Stipend |
-| ------------- | ------------- |
-| Assignment Deadline  | 26 March 2023  |
-| Octernship Duration  | 3-6 Months  |
-| Monthly Stipend  | $600 USD  |
+### `npm run build`
 
-### Recommended qualifications
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-- You have a solid problem-solving framework.
-- You know Javascript and the Browser ecosystem very well; we love polyglot programmers and have services written in Go and Python.
-- We write React; Typescript, so we expect you to be well versed with React. If you have worked with Typescript or any typed language before, it's a plus.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-If you love to optimize web vitals, do SSR, have worked with Bundlers, and multi-threading in JS excites you, we can’t wait to talk.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Eligibility
+### `npm run eject`
 
-To participate, you must be:
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-* A [verified student](https://education.github.com/discount_requests/pack_application) on Global Campus
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-* 18 years or older
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-* Active contributor on GitHub (monthly)
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-# Assignment
+## Learn More
 
-## Duplicate character remover
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### Task instructions
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-Develop an app in reactjs, with two screens.
-- Screen 1: Provide an input field and a button with text 'Submit'. 
-    - User should be able to put in any value in the input field. Clicking on the button should redirect user to screen 2. 
-    - If the input field is empty or has only space characters, the user should be shown an alert asking them to provide a non-empty value. In this scenario, we should not redirect the user to screen 2.
+### Code Splitting
 
-- Screen 2: Let's iterate over each character of the string and render them as a card on the UI. Each card should have the character, and a delete icon on top. Clicking on the delete icon should delete all duplicate instances of the chosen character in the string. We should make sure that only the clicked instance of the character remains on the screen. 
-    - Cards for the same characters should have the same background color. 
-    - If there are no more characters with greater than 1 appearance in the string, we shall render a success header. 
-    - We should also show the original string and the new resultant string. 
-    - We should provide a back button to go back to screen 1. 
-    - If the user goes back to screen 1, the input field should be cleared/empty.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Task Expectations
+### Analyzing the Bundle Size
 
-- The user shouldn't be allowed to go to screen 2 without providing a non-empty value in the input field on screen 1.
-- On Screen 2, clicking on a card delete icon should delete all other appearance of the character in the string. 
-- The cards shown on the screen should also be updated. 
-  - Let's say if the original string is `aabcaccda`. Clicking on the first `a` should leave the string as `abcccd`. 
-  - Let's say the original string is `baebdeb`. Clicking on the character `b` at index 3 (0 index), should result in `aebde`.
-- Once all the duplicate appearances in the string are removed, the user should see a success header with the original string & the resultant string.
-- The project should be written in JS or Typescript with React. Feel free to use any component library, any other packages, css libraries etc. 
-- *Your time is better utilised solving the actual problem rather than re-inventing the wheel.*
-- Make sure you do write a readme & a PR description on how to run the project locally.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Task submission
+### Making a Progressive Web App
 
-Students are expected to use the [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow) when working on their project. 
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-1. Making changes on the auto generated `feedback` branch to complete the task
-2. Using the auto generated **Feedback Pull Request** for review and submission
-3. Using GitHub Discussions to ask any relevant questions regarding the project
+### Advanced Configuration
 
-### Resources
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-- [React - Getting started](https://reactjs.org/docs/getting-started.html)
-- [Create-react-app](https://create-react-app.dev/)
+### Deployment
 
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# react-ts-tailwind-template

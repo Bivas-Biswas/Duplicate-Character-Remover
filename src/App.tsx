@@ -1,9 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+
+import logo from './assets/logo.svg'
+
+import './styles/App.css'
 
 function App() {
   return (
-    <div className="App">
+    <div className="text-center">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -13,13 +16,12 @@ function App() {
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
-          rel="noopener noreferrer"
-        >
+          rel="noopener noreferrer">
           Learn React
         </a>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
