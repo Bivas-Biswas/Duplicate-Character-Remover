@@ -46,3 +46,4 @@ public/storybook
 
 # ts build info
 tsconfig.tsbuildinfo
+.vercel

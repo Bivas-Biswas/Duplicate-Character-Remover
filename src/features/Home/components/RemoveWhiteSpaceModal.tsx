@@ -41,18 +41,17 @@ const RemoveWhiteSpaceModal = ({
   return (
     <Modal
       isOpen={isOpen}
-      className={'w-4/5 p-6 relative flex flex-col gap-10'}>
-      <Button
-        variant={'transparent'}
-        className="absolute right-3 top-3"
+      className={'w-max p-8 relative flex flex-col gap-10'}>
+      <button
+        className="absolute p-2 right-1 top-1 hover:text-indigo-500"
         onClick={() => setIsOpen(false)}>
         <CrossIcon />
-      </Button>
+      </button>
       <div className={''}>
         <div className="text-3xl">
           {!haveSpaces ? (
             <h1>
-              🧐 <b>{totalSpaces}</b> White Space Found in the String{' '}
+              🧐 <b>{totalSpaces}</b> White Space Found{' '}
             </h1>
           ) : (
             <h1> 🥹 Everthing looks okay</h1>
@@ -64,7 +63,7 @@ const RemoveWhiteSpaceModal = ({
           return <CharCard key={idx} char={char} />
         })}
       </CharCardsWrapper>
-      <div className="flex justify-end w-full">
+      <div className="flex justify-center w-full">
         {!haveSpaces ? (
           <Button
             rounded={'none'}

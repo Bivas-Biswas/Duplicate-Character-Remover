@@ -29,7 +29,8 @@
     "verify:fix": "pnpm prettier:fix && pnpm lint:fix",
     "prepare": "husky install",
     "pretty-staged": "pretty-quick --staged",
-    "clean": "rm -rf node_modules storybook-static"
+    "clean": "rm -rf node_modules storybook-static",
+    "deploy": "vercel build && vercel deploy --prebuilt"
   },
   "eslintConfig": {
     "extends": [
