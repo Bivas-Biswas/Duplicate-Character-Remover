@@ -1,3 +1,5 @@
 export * from './checkRemovedAllDuplicateOrNot'
 export * from './getCharacterWiseRandomColors'
+export * from './hasWhiteSpace'
 export { default as objectKeys } from './objectKeys'
+export * from './removeAllWhiteSpace'

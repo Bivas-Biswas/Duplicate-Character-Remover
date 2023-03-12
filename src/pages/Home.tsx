@@ -1,13 +1,17 @@
-import { Input } from 'components'
-import React, { useState } from 'react'
+import { Button, Input } from 'components'
+import React, { FormEvent, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { hasWhiteSpace } from 'utils'
 
 const Home = () => {
   const [stringInput, setStringInput] = useState('')
   const navigate = useNavigate()
-  const handleRemoveDuplicate = () => {
-    if (!stringInput) return
-    if (!stringInput.trim()) return
+  const handleRemoveDuplicate = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!stringInput) return toast.error('No String Added')
+    if (hasWhiteSpace(stringInput))
+      return toast.error('White Space Present in the String')
 
     navigate(`/remove-duplicates/${stringInput}`)
   }
@@ -17,7 +21,7 @@ const Home = () => {
       <form
         onSubmit={handleRemoveDuplicate}
         className="flex flex-col items-center gap-3 mt-10">
-        <label>Enter the String</label>
+        {/* <label>Enter the String</label> */}
         <Input
           className={'border-2'}
           type="text"
@@ -26,11 +30,7 @@ const Home = () => {
           label={'Enter the String'}
           id={'input-string'}
         />
-        <button
-          type={'submit'}
-          className="bg-green-500 px-2 py-1 rounded font-semibold text-gray-100">
-          Remove
-        </button>
+        <Button type={'submit'}>Remove</Button>
       </form>
     </div>
   )
