@@ -3,7 +3,7 @@ import React from 'react'
 import { HTMLButtonProps } from 'types'
 
 export const buttonStyle = {
-  base: 'inline-flex transition-colors items-center px-4 py-2 border border-transparent font-medium shadow-sm text-white focus:outline-none not-disabled:focus:ring-2 cursor-pointer disabled:cursor-default disabled:opacity-80',
+  base: 'inline-flex transition-colors items-center px-4 py-2 border border-transparent font-medium shadow-sm text-secondary focus:outline-none not-disabled:focus:ring-2 cursor-pointer disabled:cursor-default disabled:opacity-80',
   variant: {
     primary: 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500',
     secondary:

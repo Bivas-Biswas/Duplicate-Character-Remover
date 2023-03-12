@@ -1,11 +1,9 @@
 import React from 'react'
-
-import { CharacterObject } from '../../types'
+import { CharacterObject } from 'types'
 
 type CharacterCardPropsType = {
   handleRemoveDuplicate: (
-    _char: CharacterObject['char'],
-    _id: CharacterObject['id']
+    _event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => void
 } & CharacterObject
 
@@ -25,7 +23,7 @@ const CharacterCard = ({
         color: fontColor
       }}
       className={'py-0 px-5 cursor-pointer rounded font-medium text-8xl'}
-      onClick={() => handleRemoveDuplicate(char, id)}>
+      onClick={handleRemoveDuplicate}>
       <p>{char}</p>
     </div>
   )

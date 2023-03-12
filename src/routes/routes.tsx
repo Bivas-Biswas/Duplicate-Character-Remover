@@ -1,7 +1,7 @@
 import { LayoutProps } from 'Layout'
 import React from 'react'
 
-import { HomePage, Page404, RemoveDuplicatePage } from '../pages'
+import { HomePage, Page404, RemoveDuplicatePage, TestPage } from '../pages'
 
 export type ComponentType = {
   (): React.ReactElement
@@ -24,6 +24,10 @@ const routes: RoutesType[] = [
   {
     path: '/remove-duplicates/:string',
     Component: RemoveDuplicatePage
+  },
+  {
+    path: '/test',
+    Component: TestPage
   }
 ]
 

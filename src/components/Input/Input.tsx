@@ -3,7 +3,7 @@ import React from 'react'
 import { HTMLInputProps } from 'types'
 
 export const inputStyle = {
-  base: `block w-full pr-10 focus:outline-none text-gray-100 placeholder-gray-400 bg-gray-900 disabled:opacity-80 border-gray-900 focus:border-indigo-500 focus:ring-indigo-500`,
+  base: `border-0 w-full !bg-background border-b-2 text-secondary placeholder:text-gray-600 outline-0 border-gray-900 focus:border-indigo-500 focus:ring-indigo-500`,
   textSize: {
     small: 'text-xs',
     regular: 'text-sm',
@@ -48,13 +48,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     } = props
 
     return (
-      <div className={wrapperClassName}>
+      <div className={clsx('w-full', wrapperClassName)}>
         <label
           htmlFor={id}
           className={clsx(
             hideLabel
               ? 'sr-only'
-              : 'block text-sm font-medium text-gray-100 mx-1 mb-1',
+              : 'block text-sm font-medium text-gray-100 mb-1',
             labelClassName
           )}>
           {label}
