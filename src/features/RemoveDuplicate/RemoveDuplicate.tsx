@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { CharacterColors, CharacterObject } from 'types'
+import { CharacterObject } from 'types'
 import {
   checkRemovedAllDuplicateOrNot,
   getCharacterWiseRandomColors,
@@ -15,10 +15,6 @@ import SuccessModal from './components/SuccessModal'
 const RemoveDuplicate = () => {
   const { string: string_query } = useParams()
   const [characters, setCharacters] = useState<CharacterObject[] | null>(null)
-  const [characterColorObj, setCharacterColorObj] = useState<Record<
-    string,
-    CharacterColors
-  > | null>(null)
 
   const string = string_query || ''
 
@@ -30,8 +26,12 @@ const RemoveDuplicate = () => {
       char,
       id: idx + 1
     }))
-    setCharacterColorObj(getCharacterWiseRandomColors(charactersArray))
     setCharacters(newCharacters)
+  }, [string])
+
+  const characterColorObj = useMemo(() => {
+    if (!string) return
+    return getCharacterWiseRandomColors(string.split(''))
   }, [string])
 
   const charactersArray = useMemo(() => {
