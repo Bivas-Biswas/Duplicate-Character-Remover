@@ -10,6 +10,7 @@
     "clsx": "^1.2.1",
     "framer-motion": "^10.2.4",
     "react": "^18.2.0",
+    "react-aria": "^3.23.1",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
     "react-router-dom": "^6.8.2",
@@ -30,7 +31,7 @@
     "prepare": "husky install",
     "pretty-staged": "pretty-quick --staged",
     "clean": "rm -rf node_modules storybook-static",
-    "deploy": "vercel build && vercel deploy --prebuilt"
+    "deploy": "vercel build && vercel --prod"
   },
   "eslintConfig": {
     "extends": [

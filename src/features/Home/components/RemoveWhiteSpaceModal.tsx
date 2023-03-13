@@ -1,7 +1,7 @@
 import { CrossIcon, ForwardIcon, TrashIcon } from 'assets'
 import clsx from 'clsx'
 import { Button, Modal } from 'components'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 
 type StringWithWhiteSpaceModalProps = {
   isOpen: boolean
@@ -29,19 +29,19 @@ const RemoveWhiteSpaceModal = ({
 
   const haveSpaces = totalSpaces === 0
 
-  const handleRemoveSpaces = () => {
+  const handleRemoveSpaces = useCallback(() => {
     const newString = stringArray.filter((char) => char !== ' ').join('')
     setStringInput(newString)
-  }
+  }, [setStringInput, stringArray])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     onNext && onNext(stringInput)
-  }
+  }, [onNext, stringInput])
 
   return (
     <Modal
       isOpen={isOpen}
-      className={'w-max p-8 relative flex flex-col gap-10'}>
+      className={'w-max px-8 py-10 relative flex flex-col gap-10'}>
       <button
         className="absolute p-2 right-1 top-1 hover:text-indigo-500"
         onClick={() => setIsOpen(false)}>

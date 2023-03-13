@@ -1,6 +1,6 @@
 import { ForwardIcon } from 'assets'
 import { Button, Input } from 'components'
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { hasWhiteSpace } from 'utils'
@@ -13,33 +13,39 @@ const Home = () => {
     useState(false)
   const navigate = useNavigate()
 
-  const handleNavigate = (path: string) => {
-    return navigate(`/remove-duplicates/${path}`)
-  }
+  const handleNavigate = useCallback(
+    (path: string) => {
+      return navigate(`/remove-duplicates/${path}`)
+    },
+    [navigate]
+  )
 
-  const handleRemoveDuplicate = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!stringInput)
-      return toast(`can't process empty string`, {
-        icon: '😔',
-        className: 'bg-indigo-800 rounded text-secondary'
-      })
-    if (stringInput.trim().length === 0)
-      return toast(`can't process white space only.`, {
-        icon: '😮‍💨',
-        className: 'bg-indigo-800 rounded text-secondary'
-      })
+  const handleRemoveDuplicate = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      if (!stringInput)
+        return toast(`can't process empty string`, {
+          icon: '😔',
+          className: 'bg-indigo-800 rounded text-secondary'
+        })
+      if (stringInput.trim().length === 0)
+        return toast(`can't process white space only.`, {
+          icon: '😮‍💨',
+          className: 'bg-indigo-800 rounded text-secondary'
+        })
 
-    if (hasWhiteSpace(stringInput)) {
-      setIsRemoveWhiteSpaceModalOpen(true)
-      return
-    }
+      if (hasWhiteSpace(stringInput)) {
+        setIsRemoveWhiteSpaceModalOpen(true)
+        return
+      }
 
-    handleNavigate(stringInput)
-  }
+      handleNavigate(stringInput)
+    },
+    [handleNavigate, stringInput]
+  )
 
   return (
-    <div className="w-max gap-16 flex flex-col">
+    <div className="w-full gap-16 flex flex-col mt-36">
       <RemoveWhiteSpaceModal
         setStringInput={setStringInput}
         stringInput={stringInput}
@@ -47,13 +53,22 @@ const Home = () => {
         setIsOpen={setIsRemoveWhiteSpaceModalOpen}
         onNext={handleNavigate}
       />
-      <div
-        className={
-          'text-7xl font-extrabold text-transparent bg-clip-text text-gray-100 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-center'
-        }>
-        <p>Duplicate Character</p>
-        <p>Remover</p>
-      </div>
+      <h1 className="text-gray-400">
+        <span className="text-5xl">
+          Say{' '}
+          <span className="underline decoration-sky-500 text-gray-200 font-semibold">
+            Goodbye
+          </span>{' '}
+          to Duplicate Characters in Your Text with
+        </span>
+        <span
+          className={
+            'text-7xl font-extrabold text-transparent bg-clip-text text-gray-100 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'
+          }>
+          {' '}
+          the Duplicate Character Remover...
+        </span>
+      </h1>
       <div className={'flex flex-col items-center gap-6'}>
         <form
           onSubmit={handleRemoveDuplicate}
@@ -64,7 +79,7 @@ const Home = () => {
             roundness={'none'}
             className={'text-3xl'}
             type="text"
-            placeholder={'Enter string, example "aabbcce"'}
+            placeholder={'Enter or Paste Your Text Here'}
             value={stringInput}
             onChange={(e) => setStringInput(e.target.value)}
             label={'Enter the String'}
@@ -88,7 +103,7 @@ const Home = () => {
 }
 
 Home.layout = {
-  pageClassName: 'items-center justify-center',
+  pageClassName: 'items-center max-w-4xl',
   hideNavbar: true,
   hideFooter: true
 }
