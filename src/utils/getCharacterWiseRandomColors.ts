@@ -1,44 +1,44 @@
-import { BackgroundFontColorMap, colors } from 'data'
+import { colors, LightDarkColorMap } from 'data'
 import { CharacterColors } from 'types'
 
 import { objectKeys } from './index'
 
 export const getCharacterWiseRandomColors = (characters: string[]) => {
-  const allColorName = objectKeys(colors)
-  const backgroudColorCode = objectKeys(BackgroundFontColorMap)
+  const colorNames = objectKeys(colors)
+  const lightColorCodes = objectKeys(LightDarkColorMap)
 
-  const backGroundColorhaveIt: string[] = []
+  const lightColorhaveIt: string[] = []
 
-  const totalColorName = allColorName.length
-  const totalColorCode = backgroudColorCode.length
+  const totalColorName = colorNames.length
+  const totalLightColorCode = lightColorCodes.length
 
   const generateUniqueRandom = (): CharacterColors => {
     // Generate random number
     const randomColorNameIndex = Math.floor(Math.random() * totalColorName)
-    const randomColorCodesIndex = Math.floor(Math.random() * totalColorCode)
+    const randomColorCodeIndex = Math.floor(Math.random() * totalLightColorCode)
 
-    const colorName = allColorName[randomColorNameIndex]
-    const colorCodeForBackGround = backgroudColorCode[randomColorCodesIndex]
-    const colorCodeForFont = BackgroundFontColorMap[colorCodeForBackGround]
+    const colorName = colorNames[randomColorNameIndex]
+    const lightColorCode = lightColorCodes[randomColorCodeIndex]
+    const darkColorCode = LightDarkColorMap[lightColorCode]
 
-    const backGroundColor = colors[colorName][colorCodeForBackGround]
-    const fontColor = colors[colorName][colorCodeForFont]
+    const lightColor = colors[colorName][lightColorCode]
+    const darkColor = colors[colorName][darkColorCode]
 
-    if (!backGroundColorhaveIt.includes(backGroundColor)) {
-      backGroundColorhaveIt.push(backGroundColor)
+    if (!lightColorhaveIt.includes(lightColor)) {
+      lightColorhaveIt.push(lightColor)
       return {
-        backGroundColor,
-        fontColor
+        dark: darkColor,
+        light: lightColor
       }
     } else {
-      if (backGroundColorhaveIt.length < totalColorName + totalColorCode) {
+      if (lightColorhaveIt.length < totalColorName + totalLightColorCode) {
         // Recursively generate number
         return generateUniqueRandom()
       } else {
         console.error('No more colors available.')
         return {
-          backGroundColor: '',
-          fontColor: ''
+          light: '',
+          dark: ''
         }
       }
     }

@@ -1,10 +1,9 @@
 export type CharacterColors = {
-  backGroundColor: string
-  fontColor: string
+  dark: string
+  light: string
 }
 
 export type CharacterObject = {
   char: string
   id: number
-  colors: CharacterColors
 }

@@ -19,7 +19,7 @@ const Layout = ({
   hideNavbar
 }: LayoutProps) => {
   return (
-    <div className={clsx('font-sans bg-background text-secondary', className)}>
+    <div className={clsx('bg-background text-secondary', className)}>
       <div className={clsx('flex flex-col min-h-screen')}>
         {!hideNavbar && <Navbar />}
         <div

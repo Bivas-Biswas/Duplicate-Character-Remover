@@ -1,5 +1,8 @@
 export * from './checkRemovedAllDuplicateOrNot'
+export * from './copyToClip'
 export * from './getCharacterWiseRandomColors'
+export * from './getCountCharMap'
+export * from './getNoOfDuplicateChar'
 export * from './hasWhiteSpace'
 export { default as objectKeys } from './objectKeys'
 export * from './removeAllWhiteSpace'

@@ -1,90 +1,124 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { CharacterObject } from 'types'
+import { CharacterColors, CharacterObject } from 'types'
 import {
   checkRemovedAllDuplicateOrNot,
-  getCharacterWiseRandomColors
+  getCharacterWiseRandomColors,
+  getCountCharMap,
+  getNoOfDuplicateChar
 } from 'utils'
 
 import CharacterCard from './components/CharacterCard'
+import SuccessModal from './components/SuccessModal'
 
 const RemoveDuplicate = () => {
-  const { string } = useParams()
-  const [characters, setCharacters] = useState<CharacterObject[]>([])
-  const [haveAnyDuplicate, setHavAnyDuplicate] = useState(false)
+  const { string: string_query } = useParams()
+  const [characters, setCharacters] = useState<CharacterObject[] | null>(null)
+  const [characterColorObj, setCharacterColorObj] = useState<Record<
+    string,
+    CharacterColors
+  > | null>(null)
+
+  const string = string_query || ''
 
   useEffect(() => {
     if (!string) return
 
-    const stringArray = string.split('')
-    const characterColorMap = getCharacterWiseRandomColors(stringArray)
-
-    const newCharacters = stringArray.map((char, idx) => ({
+    const charactersArray = string.split('')
+    const newCharacters = charactersArray.map((char, idx) => ({
       char,
-      id: idx + 1,
-      colors: characterColorMap[char]
+      id: idx + 1
     }))
+    setCharacterColorObj(getCharacterWiseRandomColors(charactersArray))
     setCharacters(newCharacters)
-
-    const currenlyHaveAnyDuplicate = checkRemovedAllDuplicateOrNot(stringArray)
-
-    setHavAnyDuplicate(currenlyHaveAnyDuplicate)
   }, [string])
 
-  const handleRemoveDuplicate = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    const { char, id } = event.currentTarget.dataset
+  const charactersArray = useMemo(() => {
+    if (!characters) return
+    return characters.map((charObj) => charObj.char)
+  }, [characters])
 
-    if (!char || !id) return
+  const chararcterCountObj = useMemo(() => {
+    if (!charactersArray) return null
+    return getCountCharMap(charactersArray)
+  }, [charactersArray])
 
-    const newCharacters = characters.filter((charObj) => {
-      if (charObj.char === char) {
-        return charObj.id === parseInt(id)
-      } else {
-        return true
-      }
-    })
+  const haveAnyDuplicate = useMemo(() => {
+    if (!charactersArray) return false
+    return checkRemovedAllDuplicateOrNot(charactersArray)
+  }, [charactersArray])
 
-    const currenlyHaveAnyDuplicate = checkRemovedAllDuplicateOrNot(
-      newCharacters.map((charObj) => charObj.char)
-    )
+  const noOfDuplicateChar = useMemo(() => {
+    if (!chararcterCountObj) return null
+    return getNoOfDuplicateChar(chararcterCountObj)
+  }, [chararcterCountObj])
 
-    currenlyHaveAnyDuplicate && toast.success('Removed All Duplicate')
+  const handleRemoveDuplicate = useCallback(
+    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      const { char, id } = event.currentTarget.dataset
 
-    setHavAnyDuplicate(currenlyHaveAnyDuplicate)
+      if (!char || !id || !characters || !chararcterCountObj) return
 
-    setCharacters(newCharacters)
-  }
+      const newCharacters = characters.filter((charObj) => {
+        chararcterCountObj[charObj.char] = 1
+        if (charObj.char === char) {
+          return charObj.id === parseInt(id)
+        } else {
+          return true
+        }
+      })
+      setCharacters(newCharacters)
+    },
+    [characters, chararcterCountObj]
+  )
+
+  const showSuccessModal = haveAnyDuplicate && !!characters && !!string
 
   return (
-    <div className={'flex flex-col items-center gap-4'}>
-      <div>Done - {haveAnyDuplicate ? 'yes' : 'not'}</div>
-
-      <motion.div className={'flex flex-wrap gap-6 justify-center'}>
+    <div className={'relative h-full flex flex-col items-center gap-4 mb-10'}>
+      {showSuccessModal && (
+        <SuccessModal
+          isOpen={showSuccessModal}
+          originalString={string}
+          resultantString={characters.map((charObj) => charObj.char).join('')}
+        />
+      )}
+      <div>
+        <p>{noOfDuplicateChar}</p>
+      </div>
+      <motion.div className={'flex flex-wrap gap-4 max-w-2xl'}>
         <AnimatePresence>
-          {characters.map((charObj) => {
-            return (
-              <motion.div
-                key={charObj.id}
-                layout
-                initial={{ rotate: 10 }}
-                exit={{ rotate: 360, opacity: 0 }}
-                whileHover={{ rotate: 0, transition: { ease: 'easeOut' } }}>
-                <CharacterCard
+          {characters &&
+            characterColorObj &&
+            characters.map((charObj) => {
+              return (
+                <motion.div
                   key={charObj.id}
-                  {...charObj}
-                  handleRemoveDuplicate={handleRemoveDuplicate}
-                />
-              </motion.div>
-            )
-          })}
+                  layout
+                  exit={{ rotate: 360, opacity: 0 }}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { ease: 'easeOut', duration: 0.2 }
+                  }}>
+                  <CharacterCard
+                    key={charObj.id}
+                    char={charObj.char}
+                    id={charObj.id}
+                    colors={characterColorObj[charObj.char]}
+                    handleRemoveDuplicate={handleRemoveDuplicate}
+                  />
+                </motion.div>
+              )
+            })}
         </AnimatePresence>
       </motion.div>
     </div>
   )
+}
+
+RemoveDuplicate.layout = {
+  hideFooter: true
 }
 
 export default RemoveDuplicate

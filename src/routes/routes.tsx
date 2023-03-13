@@ -4,7 +4,7 @@ import React from 'react'
 import { HomePage, Page404, RemoveDuplicatePage, TestPage } from '../pages'
 
 export type ComponentType = {
-  (): React.ReactElement
+  (): React.ReactElement | null
   layout?: LayoutProps
   // seo?:
 }
@@ -22,7 +22,7 @@ const routes: RoutesType[] = [
     errorElement: <Page404 />
   },
   {
-    path: '/remove-duplicates/:string',
+    path: '/:string',
     Component: RemoveDuplicatePage
   },
   {

@@ -15,7 +15,7 @@ const Home = () => {
 
   const handleNavigate = useCallback(
     (path: string) => {
-      return navigate(`/remove-duplicates/${path}`)
+      return navigate(`/${path}`)
     },
     [navigate]
   )

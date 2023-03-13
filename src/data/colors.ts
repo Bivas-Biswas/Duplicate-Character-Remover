@@ -1,4 +1,4 @@
-export const BackgroundFontColorMap = {
+export const LightDarkColorMap = {
   50: 500,
   100: 600,
   200: 700,
