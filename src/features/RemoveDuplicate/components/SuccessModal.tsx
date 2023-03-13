@@ -4,7 +4,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { copyToClip } from 'utils'
 
-type SuccessModalProps = {
+export type SuccessModalProps = {
   isOpen: boolean
   originalString: string
   resultantString: string
@@ -28,17 +28,13 @@ const SuccessModal = ({
         <div className="flex flex-col gap-2">
           <p className="text-lg">Orginal</p>
           <p className="bg-gray-600 w-max px-2 rounded-sm text-lg">
-            {originalString.split('').map((char, idx) => (
-              <span key={idx}>{char}</span>
-            ))}
+            {originalString}
           </p>
         </div>
         <div>
           <p className="text-lg">Resultant</p>
           <p className="bg-gray-600 w-max px-2 rounded-sm text-lg">
-            {resultantString.split('').map((char, idx) => (
-              <span key={idx}>{char}</span>
-            ))}
+            {resultantString}
           </p>
         </div>
       </div>
