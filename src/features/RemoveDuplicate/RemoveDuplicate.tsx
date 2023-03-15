@@ -1,28 +1,42 @@
+import { RemoveWhiteSpaceModal } from 'components'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { CharacterObject } from 'types'
 import {
   checkRemovedAllDuplicateOrNot,
   getCharacterWiseRandomColors,
-  getCountCharMap
+  getCountCharMap,
+  hasWhiteSpace
 } from 'utils'
 
 import { CharactersCardWrapper, SuccessModal } from './components'
 
 const RemoveDuplicate = () => {
-  const { string } = useParams()
+  const { string: string_param } = useParams()
   const [characters, setCharacters] = useState<CharacterObject[] | null>(null)
+  const [string, setString] = useState<string>('')
+
+  const [isRemoveWhiteSpaceModalOpen, setIsRemoveWhiteSpaceModalOpen] =
+    useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (!string) return
+    if (!string_param) return
 
-    const charactersArray = string.split('')
+    setString(string_param)
+
+    if (hasWhiteSpace(string_param)) {
+      setIsRemoveWhiteSpaceModalOpen(true)
+      return
+    }
+
+    const charactersArray = string_param.split('')
     const newCharacters = charactersArray.map((char, idx) => ({
       char,
       id: idx + 1
     }))
     setCharacters(newCharacters)
-  }, [string])
+  }, [string_param])
 
   const characterColorObj = useMemo(() => {
     if (!string) return null
@@ -53,6 +67,21 @@ const RemoveDuplicate = () => {
   const showCharactersCardWrapper =
     characterCountObj && characterColorObj && characters
 
+  if (isRemoveWhiteSpaceModalOpen) {
+    return (
+      <RemoveWhiteSpaceModal
+        isOpen={isRemoveWhiteSpaceModalOpen}
+        stringInput={string}
+        setStringInput={setString}
+        showCloseBtn={false}
+        onNext={(_path) => {
+          navigate('/' + _path)
+          setIsRemoveWhiteSpaceModalOpen(false)
+        }}
+      />
+    )
+  }
+
   return (
     <div className={'h-full flex flex-col items-center gap-3 py-8 sm:py-20'}>
       {showSuccessModal && (
@@ -62,6 +91,7 @@ const RemoveDuplicate = () => {
           resultantString={characters.map((charObj) => charObj.char).join('')}
         />
       )}
+
       {/* <div> */}
       {/*  <p>{noOfDuplicateChar}</p> */}
       {/* </div> */}

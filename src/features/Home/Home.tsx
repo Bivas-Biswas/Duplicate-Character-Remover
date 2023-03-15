@@ -1,11 +1,9 @@
 import { ForwardIcon } from 'assets'
-import { Button, Input } from 'components'
+import { Button, Input, RemoveWhiteSpaceModal } from 'components'
 import React, { FormEvent, useCallback, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { hasWhiteSpace } from 'utils'
-
-import RemoveWhiteSpaceModal from './components/RemoveWhiteSpaceModal'
 
 const Home = () => {
   const [stringInput, setStringInput] = useState('')

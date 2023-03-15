@@ -1,21 +1,23 @@
 import { CrossIcon, ForwardIcon, TrashIcon } from 'assets'
 import clsx from 'clsx'
-import { Button, Modal } from 'components'
+import { Button, Modal } from 'components/index'
 import React, { useCallback, useMemo } from 'react'
 
 type StringWithWhiteSpaceModalProps = {
   isOpen: boolean
   stringInput: string
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>
   setStringInput: React.Dispatch<React.SetStateAction<string>>
   onNext?: (_path: string) => void
+  showCloseBtn?: boolean
 }
 const RemoveWhiteSpaceModal = ({
   isOpen,
   stringInput,
   setIsOpen,
   setStringInput,
-  onNext
+  onNext,
+  showCloseBtn = true
 }: StringWithWhiteSpaceModalProps) => {
   const stringArray = stringInput.split('')
 
@@ -42,11 +44,13 @@ const RemoveWhiteSpaceModal = ({
     <Modal
       isOpen={isOpen}
       className={'sm:w-1/2 px-8 py-10 relative flex flex-col gap-10'}>
-      <button
-        className="absolute p-2 right-1 top-1 hover:text-indigo-500"
-        onClick={() => setIsOpen(false)}>
-        <CrossIcon />
-      </button>
+      {showCloseBtn && (
+        <button
+          className="absolute p-2 right-1 top-1 hover:text-indigo-500"
+          onClick={() => setIsOpen && setIsOpen(false)}>
+          <CrossIcon />
+        </button>
+      )}
       <div className={''}>
         <div className="text-xl sm:text-3xl text-center">
           {!haveSpaces ? (
