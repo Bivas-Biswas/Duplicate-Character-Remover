@@ -4,8 +4,7 @@ import { CharacterObject } from 'types'
 import {
   checkRemovedAllDuplicateOrNot,
   getCharacterWiseRandomColors,
-  getCountCharMap,
-  getNoOfDuplicateChar
+  getCountCharMap
 } from 'utils'
 
 import { CharactersCardWrapper, SuccessModal } from './components'
@@ -45,17 +44,17 @@ const RemoveDuplicate = () => {
     return checkRemovedAllDuplicateOrNot(charactersArray)
   }, [charactersArray])
 
-  const noOfDuplicateChar = useMemo(() => {
-    if (!characterCountObj) return null
-    return getNoOfDuplicateChar(characterCountObj)
-  }, [characterCountObj])
+  // const noOfDuplicateChar = useMemo(() => {
+  //   if (!characterCountObj) return null
+  //   return getNoOfDuplicateChar(characterCountObj)
+  // }, [characterCountObj])
 
   const showSuccessModal = haveAnyDuplicate && !!characters && !!string
   const showCharactersCardWrapper =
     characterCountObj && characterColorObj && characters
 
   return (
-    <div className={'relative h-full flex flex-col items-center gap-4 mb-10'}>
+    <div className={'h-full flex flex-col items-center gap-3 py-20'}>
       {showSuccessModal && (
         <SuccessModal
           isOpen={showSuccessModal}
@@ -63,9 +62,9 @@ const RemoveDuplicate = () => {
           resultantString={characters.map((charObj) => charObj.char).join('')}
         />
       )}
-      <div>
-        <p>{noOfDuplicateChar}</p>
-      </div>
+      {/* <div> */}
+      {/*  <p>{noOfDuplicateChar}</p> */}
+      {/* </div> */}
       {showCharactersCardWrapper && (
         <CharactersCardWrapper
           characterCountObj={characterCountObj}

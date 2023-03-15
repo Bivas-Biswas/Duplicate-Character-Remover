@@ -24,7 +24,7 @@ const Layout = ({
         {!hideNavbar && <Navbar />}
         <div
           className={clsx(
-            'flex flex-col flex-1 max-w-5xl w-full mx-auto scrollbar h-full',
+            'flex flex-col flex-1 max-w-5xl w-full mx-auto scrollbar h-full px-4',
             pageClassName
           )}>
           {children}

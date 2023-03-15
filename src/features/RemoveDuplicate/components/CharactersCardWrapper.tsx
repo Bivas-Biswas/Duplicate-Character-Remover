@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useState } from 'react'
 
@@ -14,7 +15,7 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
   const { characterColorObj, characters, setCharacters, characterCountObj } =
     props
 
-  const [hoverChar, setHoverChar] = useState<string | null>(null)
+  const [hoverChar, setHoverChar] = useState<CharacterObject | null>(null)
 
   const handleRemoveDuplicate = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -30,7 +31,9 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
           return true
         }
       })
+
       setCharacters(newCharacters)
+      setHoverChar(null)
     },
     [characters, characterCountObj, setCharacters]
   )
@@ -59,7 +62,7 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
 
       if (characterCountObj[char] > 1) {
         return hoverChar
-          ? hoverChar === char
+          ? hoverChar.char === char
             ? propertyValue.hover
             : propertyValue.disable
           : propertyValue.default
@@ -71,10 +74,12 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
   )
 
   return (
-    <div className={'flex flex-wrap gap-3 max-w-2xl'}>
+    <div className={'flex flex-wrap gap-4 max-w-2xl justify-center'}>
       <AnimatePresence>
         {characters.map((charObj) => {
           const { char, id } = charObj
+          const haveDuplicate = characterCountObj[char] > 1
+
           return (
             <motion.div
               key={id}
@@ -83,8 +88,8 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
               data-char={char}
               exit={{ rotate: 360, opacity: 0 }}
               onHoverStart={() => {
-                if (characterCountObj[char] > 1) {
-                  setHoverChar(char)
+                if (haveDuplicate) {
+                  setHoverChar({ char, id })
                 }
               }}
               onHoverEnd={() => {
@@ -97,9 +102,10 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
                 color: getStyle(char, 'color') as string,
                 scale: getStyle(char, 'scale')
               }}
-              className={
-                'w-20 h-20 cursor-pointer rounded font-medium text-6xl flex items-center justify-center'
-              }>
+              className={clsx(
+                'relative w-20 h-20 rounded font-medium text-6xl flex items-center justify-center overflow-hidden',
+                !haveDuplicate ? 'cursor-not-allowed' : 'cursor-pointer'
+              )}>
               <p>{char}</p>
             </motion.div>
           )
