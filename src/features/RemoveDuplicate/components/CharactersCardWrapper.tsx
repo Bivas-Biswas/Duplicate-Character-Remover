@@ -49,21 +49,25 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
           hover: characterColorObj[char].dark
         },
         scale: {
-          default: '1',
-          disable: '1',
-          hover: '1.1'
+          default: 1,
+          disable: 1,
+          hover: 1.1
         }
-      }
+      } as const
 
       const propertyValue = style[property]
 
-      return hoverChar
-        ? hoverChar === char
-          ? propertyValue.hover
-          : propertyValue.disable
-        : propertyValue.default
+      if (characterCountObj[char] > 1) {
+        return hoverChar
+          ? hoverChar === char
+            ? propertyValue.hover
+            : propertyValue.disable
+          : propertyValue.default
+      } else {
+        return propertyValue.disable
+      }
     },
-    [characterColorObj, hoverChar]
+    [characterColorObj, characterCountObj, hoverChar]
   )
 
   return (
@@ -79,7 +83,9 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
               data-char={char}
               exit={{ rotate: 360, opacity: 0 }}
               onHoverStart={() => {
-                setHoverChar(char)
+                if (characterCountObj[char] > 1) {
+                  setHoverChar(char)
+                }
               }}
               onHoverEnd={() => {
                 setHoverChar(null)
@@ -87,8 +93,8 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
               onClick={handleRemoveDuplicate}
               initial={false}
               animate={{
-                backgroundColor: getStyle(char, 'backgroundColor'),
-                color: getStyle(char, 'color'),
+                backgroundColor: getStyle(char, 'backgroundColor') as string,
+                color: getStyle(char, 'color') as string,
                 scale: getStyle(char, 'scale')
               }}
               className={
