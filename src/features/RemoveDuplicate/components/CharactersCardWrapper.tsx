@@ -1,9 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import { CharacterColors, CharacterObject } from '../removeduplicate.types'
-
-import CharacterCard from './CharacterCard'
 
 type CharactersCardWrapperProps = {
   characterColorObj: Record<string, CharacterColors>
@@ -16,51 +14,7 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
   const { characterColorObj, characters, setCharacters, characterCountObj } =
     props
 
-  const characterElementsRef = useRef<Map<
-    string,
-    { id: number; node: HTMLDivElement }[]
-  > | null>(null)
-
-  const getCharacterElementsMap = useCallback(() => {
-    if (!characterElementsRef.current) {
-      // Initialize the Map on first usage.
-      characterElementsRef.current = new Map()
-    }
-    return characterElementsRef.current
-  }, [])
-  // mange char element refs
-  const handleAssignRef = useCallback(
-    ({ char, id, node }: { node: HTMLDivElement | null } & CharacterObject) => {
-      const characterElementsMap = getCharacterElementsMap()
-      if (node) {
-        if (characterElementsMap.has(char)) {
-          const value = characterElementsMap.get(char)
-          value && characterElementsMap.set(char, [...value, { id, node }])
-        } else {
-          characterElementsMap.set(char, [{ id, node }])
-        }
-      } else {
-        characterElementsMap.delete(char)
-      }
-    },
-    [getCharacterElementsMap]
-  )
-
-  const handleSameCharElement = useCallback(
-    (char: string, callback: (_ele: HTMLDivElement) => void) => {
-      const characterElementsMap = getCharacterElementsMap()
-      const sameElements = characterElementsMap.get(char)
-
-      if (sameElements) {
-        for (const { node } of sameElements) {
-          if (node) {
-            callback(node)
-          }
-        }
-      }
-    },
-    [getCharacterElementsMap]
-  )
+  const [hoverChar, setHoverChar] = useState<string | null>(null)
 
   const handleRemoveDuplicate = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -77,53 +31,70 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
         }
       })
       setCharacters(newCharacters)
-
-      // clear memory
-      const characterElementsMap = getCharacterElementsMap()
-
-      const sameElements = characterElementsMap.get(char)
-
-      if (sameElements) {
-        const newSameElements = sameElements.filter(
-          (eleObj) => eleObj.id === parseInt(id)
-        )
-        characterElementsMap.set(char, newSameElements)
-      }
     },
-    [characters, characterCountObj, getCharacterElementsMap, setCharacters]
+    [characters, characterCountObj, setCharacters]
   )
+
+  const getStyle = useCallback(
+    (char: string, property: 'backgroundColor' | 'color' | 'scale') => {
+      const style = {
+        backgroundColor: {
+          default: characterColorObj[char].light,
+          disable: '#374151',
+          hover: characterColorObj[char].light
+        },
+        color: {
+          default: characterColorObj[char].dark,
+          disable: '#4b5563',
+          hover: characterColorObj[char].dark
+        },
+        scale: {
+          default: '1',
+          disable: '1',
+          hover: '1.1'
+        }
+      }
+
+      const propertyValue = style[property]
+
+      return hoverChar
+        ? hoverChar === char
+          ? propertyValue.hover
+          : propertyValue.disable
+        : propertyValue.default
+    },
+    [characterColorObj, hoverChar]
+  )
+
   return (
-    <div className={'flex flex-wrap gap-4 max-w-2xl'}>
+    <div className={'flex flex-wrap gap-3 max-w-2xl'}>
       <AnimatePresence>
         {characters.map((charObj) => {
           const { char, id } = charObj
           return (
             <motion.div
-              ref={(node) => handleAssignRef({ char, id, node })}
               key={id}
               layout
+              data-id={id}
+              data-char={char}
               exit={{ rotate: 360, opacity: 0 }}
-              onMouseEnter={() => {
-                handleSameCharElement(char, (ele) => {
-                  ele.style.transform = 'scale(1.1)'
-                })
+              onHoverStart={() => {
+                setHoverChar(char)
               }}
               onHoverEnd={() => {
-                handleSameCharElement(char, (ele) => {
-                  ele.style.transform = 'scale(1)'
-                })
+                setHoverChar(null)
               }}
-              onMouseLeave={() => {
-                handleSameCharElement(char, (ele) => {
-                  ele.style.transform = 'scale(1)'
-                })
-              }}>
-              <CharacterCard
-                char={char}
-                id={id}
-                colors={characterColorObj[char]}
-                handleRemoveDuplicate={handleRemoveDuplicate}
-              />
+              onClick={handleRemoveDuplicate}
+              initial={false}
+              animate={{
+                backgroundColor: getStyle(char, 'backgroundColor'),
+                color: getStyle(char, 'color'),
+                scale: getStyle(char, 'scale')
+              }}
+              className={
+                'w-20 h-20 cursor-pointer rounded font-medium text-6xl flex items-center justify-center'
+              }>
+              <p>{char}</p>
             </motion.div>
           )
         })}
