@@ -41,14 +41,14 @@ const RemoveWhiteSpaceModal = ({
   return (
     <Modal
       isOpen={isOpen}
-      className={'w-max px-8 py-10 relative flex flex-col gap-10'}>
+      className={'sm:w-1/2 px-8 py-10 relative flex flex-col gap-10'}>
       <button
         className="absolute p-2 right-1 top-1 hover:text-indigo-500"
         onClick={() => setIsOpen(false)}>
         <CrossIcon />
       </button>
       <div className={''}>
-        <div className="text-3xl">
+        <div className="text-xl sm:text-3xl text-center">
           {!haveSpaces ? (
             <h1>
               🧐 <b>{totalSpaces}</b> White Space Found{' '}

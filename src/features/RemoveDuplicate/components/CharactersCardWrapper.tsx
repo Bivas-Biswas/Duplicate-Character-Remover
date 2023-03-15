@@ -103,7 +103,7 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
                 scale: getStyle(char, 'scale')
               }}
               className={clsx(
-                'relative w-20 h-20 rounded font-medium text-6xl flex items-center justify-center overflow-hidden',
+                'relative w-14 h-14 sm:w-20 sm:h-20 rounded font-medium text-4xl sm:text-6xl flex items-center justify-center overflow-hidden',
                 !haveDuplicate ? 'cursor-not-allowed' : 'cursor-pointer'
               )}>
               <p>{char}</p>

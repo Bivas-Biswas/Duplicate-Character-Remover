@@ -21,7 +21,7 @@ const SuccessModal = ({
     <Modal
       isOpen={isOpen}
       className={'sm:w-1/2 px-6 py-6 relative flex flex-col gap-8'}>
-      <h3 className={'text-4xl text-center font-semibold'}>
+      <h3 className={'text-2xl sm:text-4xl text-center font-semibold'}>
         Duplicates removed! 🥳
       </h3>
       <div className="flex flex-col gap-2">

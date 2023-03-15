@@ -45,7 +45,7 @@ const Home = () => {
   )
 
   return (
-    <div className="w-full gap-16 flex flex-col mt-36">
+    <div className="w-full gap-8 md:gap-16 flex flex-col justify-center h-full flex-1">
       <RemoveWhiteSpaceModal
         setStringInput={setStringInput}
         stringInput={stringInput}
@@ -54,7 +54,7 @@ const Home = () => {
         onNext={handleNavigate}
       />
       <h1 className="text-gray-400">
-        <span className="text-5xl">
+        <span className="text-4xl sm:text-5xl">
           Say{' '}
           <span className="underline decoration-sky-500 text-gray-200 font-semibold">
             Goodbye
@@ -63,7 +63,7 @@ const Home = () => {
         </span>
         <span
           className={
-            'text-7xl font-extrabold text-transparent bg-clip-text text-gray-100 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'
+            'text-5xl sm:text-7xl font-extrabold text-transparent bg-clip-text text-gray-100 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'
           }>
           {' '}
           the Duplicate Character Remover...
@@ -77,7 +77,7 @@ const Home = () => {
             hideLabel
             autoComplete="off"
             roundness={'none'}
-            className={'text-3xl'}
+            className={'text-xl sm:text-3xl'}
             type="text"
             placeholder={'Enter or Paste Your Text Here'}
             value={stringInput}
@@ -104,7 +104,7 @@ const Home = () => {
 
 Home.layout = {
   pageClassName: 'items-center max-w-4xl',
-  hideNavbar: true,
+  // hideNavbar: true,
   hideFooter: true
 }
 
