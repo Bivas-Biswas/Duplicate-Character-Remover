@@ -43,7 +43,7 @@ const Home = () => {
   )
 
   return (
-    <div className="w-full gap-8 md:gap-16 flex flex-col justify-center h-full flex-1">
+    <div className="w-full gap-8 md:gap-16 flex flex-col pt-10 h-full flex-1">
       <RemoveWhiteSpaceModal
         setStringInput={setStringInput}
         stringInput={stringInput}
@@ -56,7 +56,7 @@ const Home = () => {
           Say{' '}
           <span className="underline decoration-sky-500 text-gray-200 font-semibold">
             Goodbye
-          </span>{' '}
+          </span>
           to Duplicate Characters in Your Text with
         </span>
         <span
@@ -98,12 +98,6 @@ const Home = () => {
       </div>
     </div>
   )
-}
-
-Home.layout = {
-  pageClassName: 'items-center max-w-4xl',
-  // hideNavbar: true,
-  hideFooter: true
 }
 
 export default Home

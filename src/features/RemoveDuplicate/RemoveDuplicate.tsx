@@ -83,7 +83,7 @@ const RemoveDuplicate = () => {
   }
 
   return (
-    <div className={'h-full flex flex-col items-center gap-3 py-8 sm:py-20'}>
+    <div className={'h-full flex flex-col items-center gap-3 py-8 sm:py-10'}>
       {showSuccessModal && (
         <SuccessModal
           isOpen={showSuccessModal}
