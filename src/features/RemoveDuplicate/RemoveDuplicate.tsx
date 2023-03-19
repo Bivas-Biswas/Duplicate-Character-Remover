@@ -10,7 +10,7 @@ import {
   hasWhiteSpace
 } from 'utils'
 
-import { CharactersCardWrapper, SuccessModal } from './components'
+import { CharactersCard, SuccessModal } from './components'
 import { useRemoveDuplicateReducer } from './utils'
 
 const RemoveDuplicate = () => {
@@ -157,7 +157,7 @@ const RemoveDuplicate = () => {
         />
       )}
 
-      <CharactersCardWrapper
+      <CharactersCard
         selectedCharId={selectedCharId}
         selectedChar={selectedChar}
         onHoverStart={({ char, id }) => {

@@ -21,7 +21,7 @@ type CharactersCardWrapperProps = {
   onCardClick: (_arg: ArgType) => void
 }
 
-const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
+const CharactersCard = (props: CharactersCardWrapperProps) => {
   const {
     characterColorObj,
     characters,
@@ -108,4 +108,4 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
   )
 }
 
-export default CharactersCardWrapper
+export default CharactersCard
