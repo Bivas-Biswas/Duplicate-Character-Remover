@@ -1,6 +1,6 @@
 import { RemoveWhiteSpaceModal } from 'components'
 import { useKeyPress } from 'hooks'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CharacterObject } from 'types'
 import {
@@ -11,72 +11,52 @@ import {
 } from 'utils'
 
 import { CharactersCardWrapper, SuccessModal } from './components'
+import { useRemoveDuplicateReducer } from './utils'
 
 const RemoveDuplicate = () => {
   const { string: string_param } = useParams()
-  const [characters, setCharacters] = useState<CharacterObject[] | null>(null)
-  const [string, setString] = useState<string>('')
+  const [state, dispatch] = useRemoveDuplicateReducer()
 
-  const [isRemoveWhiteSpaceModalOpen, setIsRemoveWhiteSpaceModalOpen] =
-    useState(false)
+  const {
+    characters,
+    selectedChar,
+    selectedCharId,
+    selectedIndex,
+    haveWhiteSpace,
+    string,
+    charactersColor,
+    charactersCount,
+    haveDuplicate
+  } = state
   const navigate = useNavigate()
 
   useEffect(() => {
     if (!string_param) return
 
-    setString(string_param)
+    dispatch({ type: 'update_string', payload: string_param })
 
     if (hasWhiteSpace(string_param)) {
-      setIsRemoveWhiteSpaceModalOpen(true)
-      return
+      dispatch({ type: 'update_have_white_space', payload: true })
+    } else {
+      dispatch({
+        type: 'update_have_duplicate',
+        payload: checkRemovedAllDuplicateOrNot(string_param)
+      })
+      dispatch({
+        type: 'assign_color_to_character',
+        payload: getCharacterWiseRandomColors(string_param)
+      })
+      dispatch({ type: 'create_charactersObject', payload: string_param })
+      dispatch({
+        type: 'update_characters_count',
+        payload: getCountCharMap(string_param)
+      })
     }
-
-    const charactersArray = string_param.split('')
-    const newCharacters = charactersArray.map((char, idx) => ({
-      char,
-      id: idx + 1
-    }))
-    setCharacters(newCharacters)
-  }, [string_param])
-
-  const characterColorObj = useMemo(() => {
-    if (!string) return null
-    return getCharacterWiseRandomColors(string.split(''))
-  }, [string])
-
-  const charactersArray = useMemo(() => {
-    if (!characters) return
-    return characters.map((charObj) => charObj.char)
-  }, [characters])
-
-  const characterCountObj = useMemo(() => {
-    if (!charactersArray) return null
-    return getCountCharMap(charactersArray)
-  }, [charactersArray])
-
-  const haveAnyDuplicate = useMemo(() => {
-    if (!charactersArray) return false
-    return checkRemovedAllDuplicateOrNot(charactersArray)
-  }, [charactersArray])
-
-  // const noOfDuplicateChar = useMemo(() => {
-  //   if (!characterCountObj) return null
-  //   return getNoOfDuplicateChar(characterCountObj)
-  // }, [characterCountObj])
-
-  const showSuccessModal = haveAnyDuplicate && !!characters && !!string
-  const showCharactersCardWrapper =
-    characterCountObj && characterColorObj && characters
-
-  const [selectedIndex, setSelectedIndex] = useState(-1)
-  const [hoverChar, setHoverChar] = useState<CharacterObject | null>(null)
+  }, [dispatch, string_param])
 
   const handleRemoveDuplicate = useCallback(
     ({ char, id }: CharacterObject) => {
-      if (!characters || !characterCountObj) return
-
       const newCharacters = characters.filter((charObj) => {
-        characterCountObj[charObj.char] = 1
         if (charObj.char === char) {
           return charObj.id === id
         } else {
@@ -84,47 +64,80 @@ const RemoveDuplicate = () => {
         }
       })
 
-      setCharacters(newCharacters)
-      setHoverChar(null)
+      const newSelectIndex = newCharacters.findIndex(
+        (charObj) => charObj.id === id
+      )
+
+      const haveAnyDuplicate = checkRemovedAllDuplicateOrNot(
+        newCharacters.map((charObj) => charObj.char).join('')
+      )
+
+      dispatch({
+        type: 'update_characters_count',
+        payload: {
+          ...charactersCount,
+          [char]: 1
+        }
+      })
+      dispatch({
+        type: 'update_have_duplicate',
+        payload: haveAnyDuplicate
+      })
+      dispatch({ type: 'update_charactersObject', payload: newCharacters })
+
+      let updateSelectPayload
+      if (haveAnyDuplicate) {
+        updateSelectPayload = {
+          selectedIndex: -1,
+          selectedChar: '',
+          selectedCharId: -1
+        }
+      } else {
+        updateSelectPayload = {
+          selectedIndex: newSelectIndex,
+          selectedChar: newCharacters[newSelectIndex].char,
+          selectedCharId: newCharacters[newSelectIndex].id
+        }
+      }
+      dispatch({
+        type: 'update_select',
+        payload: updateSelectPayload
+      })
     },
-    [characters, setCharacters, setHoverChar, characterCountObj]
+    [characters, charactersCount, dispatch]
   )
 
   useKeyPress(({ key }) => {
-    if (!characters) return
-    let newIndex = 0
+    if (haveDuplicate) return
+
     switch (key) {
       case 'ArrowLeft':
-        newIndex =
-          selectedIndex !== 0 && selectedIndex !== -1
-            ? selectedIndex - 1
-            : characters.length - 1
+        dispatch({ type: 'ArrowLeft' })
         break
       case 'ArrowRight':
-        newIndex =
-          selectedIndex !== characters.length - 1 ? selectedIndex + 1 : 0
+        dispatch({ type: 'ArrowRight' })
         break
-
       case 'Enter':
-        handleRemoveDuplicate(characters[selectedIndex])
+        handleRemoveDuplicate({ char: selectedChar, id: selectedCharId })
         return
       default:
         return null
     }
-    setHoverChar(characters[newIndex])
-    setSelectedIndex(newIndex)
   })
 
-  if (isRemoveWhiteSpaceModalOpen) {
+  if (haveWhiteSpace) {
     return (
       <RemoveWhiteSpaceModal
-        isOpen={isRemoveWhiteSpaceModalOpen}
-        stringInput={string}
-        setStringInput={setString}
+        isOpen={haveWhiteSpace}
+        string={string}
         showCloseBtn={false}
-        onNext={(_path) => {
-          navigate('/' + _path)
-          setIsRemoveWhiteSpaceModalOpen(false)
+        onRemoveSpace={(_stringWithNoSpace) => {
+          dispatch({ type: 'update_string', payload: _stringWithNoSpace })
+        }}
+        onNext={(newString) => {
+          dispatch({ type: 'update_have_white_space', payload: false })
+          dispatch({ type: 'update_string', payload: newString })
+          navigate('/' + newString)
         }}
       />
     )
@@ -132,27 +145,44 @@ const RemoveDuplicate = () => {
 
   return (
     <div className={'h-full flex flex-col items-center gap-3 py-8 sm:py-10'}>
-      {showSuccessModal && (
+      {haveDuplicate && (
         <SuccessModal
-          isOpen={showSuccessModal}
+          isOpen={haveDuplicate}
           originalString={string}
           resultantString={characters.map((charObj) => charObj.char).join('')}
         />
       )}
 
-      {/* <div> */}
-      {/*  <p>{noOfDuplicateChar}</p> */}
-      {/* </div> */}
-      {showCharactersCardWrapper && (
-        <CharactersCardWrapper
-          handleRemoveDuplicate={handleRemoveDuplicate}
-          hoverChar={hoverChar}
-          setHoverChar={setHoverChar}
-          characterCountObj={characterCountObj}
-          characterColorObj={characterColorObj}
-          characters={characters}
-        />
-      )}
+      <CharactersCardWrapper
+        selectedCharId={selectedCharId}
+        selectedChar={selectedChar}
+        onHoverStart={({ char, id }) => {
+          dispatch({
+            type: 'update_select',
+            payload: {
+              selectedIndex,
+              selectedChar: char,
+              selectedCharId: id
+            }
+          })
+        }}
+        onHoverEnd={() => {
+          dispatch({
+            type: 'update_select',
+            payload: {
+              selectedIndex,
+              selectedChar: '',
+              selectedCharId: -1
+            }
+          })
+        }}
+        onCardClick={({ char, id }) => {
+          handleRemoveDuplicate({ char, id })
+        }}
+        characterCountObj={charactersCount}
+        characterColorObj={charactersColor}
+        characters={characters}
+      />
     </div>
   )
 }

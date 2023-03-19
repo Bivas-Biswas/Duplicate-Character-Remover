@@ -3,7 +3,7 @@ import { CharacterColors } from 'types'
 
 import { objectKeys } from './index'
 
-export const getCharacterWiseRandomColors = (characters: string[]) => {
+export const getCharacterWiseRandomColors = (string: string) => {
   const colorNames = objectKeys(colors)
   const lightColorCodes = objectKeys(LightDarkColorMap)
 
@@ -46,7 +46,7 @@ export const getCharacterWiseRandomColors = (characters: string[]) => {
 
   const saveCharWiseColor: Record<string, CharacterColors> = {}
 
-  for (const char of characters) {
+  for (const char of string.split('')) {
     if (!saveCharWiseColor[char]) {
       saveCharWiseColor[char] = generateUniqueRandom()
     }

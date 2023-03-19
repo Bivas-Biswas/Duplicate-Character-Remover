@@ -4,13 +4,21 @@ import React, { useCallback } from 'react'
 
 import { CharacterColors, CharacterObject } from '../removeduplicate.types'
 
+type ArgType = {
+  char: string
+  id: number
+  index: number
+}
+
 type CharactersCardWrapperProps = {
   characterColorObj: Record<string, CharacterColors>
   characters: CharacterObject[]
   characterCountObj: Record<string, number>
-  hoverChar: CharacterObject | null
-  setHoverChar: React.Dispatch<React.SetStateAction<CharacterObject | null>>
-  handleRemoveDuplicate: (_charObj: CharacterObject) => void
+  selectedCharId: number
+  selectedChar: string
+  onHoverStart: (_arg: ArgType) => void
+  onHoverEnd: (_arg: ArgType) => void
+  onCardClick: (_arg: ArgType) => void
 }
 
 const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
@@ -18,9 +26,11 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
     characterColorObj,
     characters,
     characterCountObj,
-    hoverChar,
-    setHoverChar,
-    handleRemoveDuplicate
+    onCardClick,
+    onHoverEnd,
+    onHoverStart,
+    selectedChar,
+    selectedCharId
   } = props
 
   const getStyle = useCallback(
@@ -54,8 +64,8 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
       const propertyValue = style[property]
 
       if (characterCountObj[char] > 1) {
-        return hoverChar
-          ? hoverChar.char === char
+        return selectedChar
+          ? selectedChar === char
             ? propertyValue.hover
             : propertyValue.disable
           : propertyValue.default
@@ -63,16 +73,15 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
         return propertyValue.disable
       }
     },
-    [characterColorObj, characterCountObj, hoverChar]
+    [characterColorObj, characterCountObj, selectedChar]
   )
 
   return (
     <div className={'flex flex-wrap gap-3 max-w-2xl justify-center'}>
       <AnimatePresence>
-        {characters.map((charObj) => {
-          const { char, id } = charObj
+        {characters.map(({ char, id }, index) => {
           const haveDuplicate = characterCountObj[char] > 1
-
+          const params = { char, id, index }
           return (
             <motion.div
               key={id}
@@ -81,29 +90,25 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
               data-char={char}
               exit={{ rotate: 360, opacity: 0 }}
               onHoverStart={() => {
-                if (haveDuplicate) {
-                  setHoverChar({ char, id })
-                }
+                haveDuplicate && onHoverStart(params)
               }}
               onHoverEnd={() => {
-                setHoverChar(null)
+                onHoverEnd(params)
               }}
               // role="button"
               // aria-pressed={id === selectedIndex}
               // tabIndex={0}
-              onClick={() => handleRemoveDuplicate({ char, id })}
+              onClick={() => onCardClick(params)}
               initial={false}
-              onKeyPress={(event) => {
-                if (event.key === 'Enter') {
-                  handleRemoveDuplicate({ char, id })
-                }
-              }}
               animate={{
                 backgroundColor: getStyle(char, 'backgroundColor') as string,
                 color: getStyle(char, 'color') as string,
-                scale: hoverChar && hoverChar.id === id ? 1.1 : 1,
-                border:
-                  hoverChar && hoverChar.id === id ? 'red solid 2px' : 'none'
+                scale: selectedCharId === id ? 1.1 : 1
+              }}
+              style={{
+                boxShadow:
+                  selectedCharId === id ? '#94a3b8 0px 2px 8px' : 'none',
+                border: selectedCharId === id ? '#94a3b8 solid 1px' : 'none'
               }}
               className={clsx(
                 'relative w-14 h-14 sm:w-20 sm:h-20 rounded font-medium text-4xl sm:text-6xl flex items-center justify-center overflow-hidden',

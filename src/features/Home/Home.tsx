@@ -45,10 +45,14 @@ const Home = () => {
   return (
     <div className="w-full gap-8 md:gap-16 flex flex-col pt-10 h-full flex-1">
       <RemoveWhiteSpaceModal
-        setStringInput={setStringInput}
-        stringInput={stringInput}
+        string={stringInput}
         isOpen={isRemoveWhiteSpaceModalOpen}
-        setIsOpen={setIsRemoveWhiteSpaceModalOpen}
+        onRemoveSpace={(_stringWithNoSpace) => {
+          setStringInput(_stringWithNoSpace)
+        }}
+        onClose={() => {
+          setIsRemoveWhiteSpaceModalOpen(false)
+        }}
         onNext={handleNavigate}
       />
       <h1 className="text-gray-400">

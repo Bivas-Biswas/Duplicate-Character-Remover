@@ -5,21 +5,21 @@ import React, { useCallback, useMemo } from 'react'
 
 type StringWithWhiteSpaceModalProps = {
   isOpen: boolean
-  stringInput: string
-  setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>
-  setStringInput: React.Dispatch<React.SetStateAction<string>>
+  string: string
+  onClose?: () => void
+  onRemoveSpace: (_stringWithNoSpace: string) => void
   onNext?: (_path: string) => void
   showCloseBtn?: boolean
 }
 const RemoveWhiteSpaceModal = ({
   isOpen,
-  stringInput,
-  setIsOpen,
-  setStringInput,
+  string,
+  onClose,
   onNext,
-  showCloseBtn = true
+  showCloseBtn = true,
+  onRemoveSpace
 }: StringWithWhiteSpaceModalProps) => {
-  const stringArray = stringInput.split('')
+  const stringArray = string.split('')
 
   const totalSpaces = useMemo(() => {
     let count = 0
@@ -33,12 +33,12 @@ const RemoveWhiteSpaceModal = ({
 
   const handleRemoveSpaces = useCallback(() => {
     const newString = stringArray.filter((char) => char !== ' ').join('')
-    setStringInput(newString)
-  }, [setStringInput, stringArray])
+    onRemoveSpace(newString)
+  }, [onRemoveSpace, stringArray])
 
   const handleNext = useCallback(() => {
-    onNext && onNext(stringInput)
-  }, [onNext, stringInput])
+    onNext && onNext(string)
+  }, [onNext, string])
 
   return (
     <Modal
@@ -47,7 +47,7 @@ const RemoveWhiteSpaceModal = ({
       {showCloseBtn && (
         <button
           className="absolute p-2 right-1 top-1 hover:text-indigo-500"
-          onClick={() => setIsOpen && setIsOpen(false)}>
+          onClick={() => onClose && onClose()}>
           <CrossIcon />
         </button>
       )}
