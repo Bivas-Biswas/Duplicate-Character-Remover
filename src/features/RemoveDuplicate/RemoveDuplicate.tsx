@@ -56,6 +56,8 @@ const RemoveDuplicate = () => {
 
   const handleRemoveDuplicate = useCallback(
     ({ char, id }: CharacterObject) => {
+      if (charactersCount[char] === 1 || !char) return
+
       const newCharacters = characters.filter((charObj) => {
         if (charObj.char === char) {
           return charObj.id === id
@@ -86,17 +88,17 @@ const RemoveDuplicate = () => {
       dispatch({ type: 'update_charactersObject', payload: newCharacters })
 
       let updateSelectPayload
-      if (haveAnyDuplicate) {
-        updateSelectPayload = {
-          selectedIndex: -1,
-          selectedChar: '',
-          selectedCharId: -1
-        }
-      } else {
+      if (!haveAnyDuplicate) {
         updateSelectPayload = {
           selectedIndex: newSelectIndex,
           selectedChar: newCharacters[newSelectIndex].char,
           selectedCharId: newCharacters[newSelectIndex].id
+        }
+      } else {
+        updateSelectPayload = {
+          selectedIndex: -1,
+          selectedChar: '',
+          selectedCharId: -1
         }
       }
       dispatch({
@@ -107,10 +109,12 @@ const RemoveDuplicate = () => {
     [characters, charactersCount, dispatch]
   )
 
-  useKeyPress(({ key }) => {
+  useKeyPress((event) => {
+    event.preventDefault()
+
     if (haveDuplicate) return
 
-    switch (key) {
+    switch (event.key) {
       case 'ArrowLeft':
         dispatch({ type: 'ArrowLeft' })
         break

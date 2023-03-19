@@ -1,5 +1,4 @@
 import { useReducer } from 'react'
-import { checkRemovedAllDuplicateOrNot } from 'utils'
 
 import { CharacterColors, CharacterObject } from '../removeduplicate.types'
 
@@ -131,12 +130,21 @@ const removeDuplicateReducer = (
 
       newSelectedChar = state.characters[newSelectedIndex].char
       newSelectedCharId = state.characters[newSelectedIndex].id
-      return {
-        ...state,
-        selectedIndex: newSelectedIndex,
-        selectedChar: newSelectedChar,
-        selectedCharId: newSelectedCharId
-      }
+
+      if (state.charactersCount[newSelectedChar] > 1)
+        return {
+          ...state,
+          selectedIndex: newSelectedIndex,
+          selectedChar: newSelectedChar,
+          selectedCharId: newSelectedCharId
+        }
+      else
+        return {
+          ...state,
+          selectedIndex: newSelectedIndex,
+          selectedChar: '',
+          selectedCharId: newSelectedCharId
+        }
 
     case 'ArrowRight':
       newSelectedIndex =
@@ -146,12 +154,20 @@ const removeDuplicateReducer = (
 
       newSelectedChar = state.characters[newSelectedIndex].char
       newSelectedCharId = state.characters[newSelectedIndex].id
-      return {
-        ...state,
-        selectedIndex: newSelectedIndex,
-        selectedChar: newSelectedChar,
-        selectedCharId: newSelectedCharId
-      }
+      if (state.charactersCount[newSelectedChar] > 1)
+        return {
+          ...state,
+          selectedIndex: newSelectedIndex,
+          selectedChar: newSelectedChar,
+          selectedCharId: newSelectedCharId
+        }
+      else
+        return {
+          ...state,
+          selectedIndex: newSelectedIndex,
+          selectedChar: '',
+          selectedCharId: newSelectedCharId
+        }
     default:
       throw new Error(`[useRemoveDuplicateReducer]: wrong action type entered`)
   }

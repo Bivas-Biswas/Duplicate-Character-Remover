@@ -34,10 +34,7 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
   } = props
 
   const getStyle = useCallback(
-    (
-      char: string,
-      property: 'backgroundColor' | 'color' | 'scale' | 'border'
-    ) => {
+    (char: string, property: 'backgroundColor' | 'color') => {
       const style = {
         backgroundColor: {
           default: characterColorObj[char].light,
@@ -48,16 +45,6 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
           default: characterColorObj[char].dark,
           disable: '#4b5563',
           hover: characterColorObj[char].dark
-        },
-        scale: {
-          default: 1,
-          disable: 1,
-          hover: 1.1
-        },
-        border: {
-          default: 'none',
-          disable: 'none',
-          hover: 'red solid 2px'
         }
       } as const
 
@@ -82,6 +69,8 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
         {characters.map(({ char, id }, index) => {
           const haveDuplicate = characterCountObj[char] > 1
           const params = { char, id, index }
+          const isSameCharacterCard = selectedCharId === id
+
           return (
             <motion.div
               key={id}
@@ -95,20 +84,16 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
               onHoverEnd={() => {
                 onHoverEnd(params)
               }}
-              // role="button"
-              // aria-pressed={id === selectedIndex}
-              // tabIndex={0}
               onClick={() => onCardClick(params)}
               initial={false}
               animate={{
-                backgroundColor: getStyle(char, 'backgroundColor') as string,
-                color: getStyle(char, 'color') as string,
-                scale: selectedCharId === id ? 1.1 : 1
+                backgroundColor: getStyle(char, 'backgroundColor'),
+                color: getStyle(char, 'color'),
+                scale: haveDuplicate && selectedCharId === id ? 1.1 : 1
               }}
               style={{
-                boxShadow:
-                  selectedCharId === id ? '#94a3b8 0px 2px 8px' : 'none',
-                border: selectedCharId === id ? '#94a3b8 solid 1px' : 'none'
+                boxShadow: isSameCharacterCard ? '#94a3b8 0px 2px 8px' : 'none',
+                border: isSameCharacterCard ? '#94a3b8 solid 1px' : 'none'
               }}
               className={clsx(
                 'relative w-14 h-14 sm:w-20 sm:h-20 rounded font-medium text-4xl sm:text-6xl flex items-center justify-center overflow-hidden',
