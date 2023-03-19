@@ -33,28 +33,27 @@ const CharactersCard = (props: CharactersCardWrapperProps) => {
     selectedCharId
   } = props
 
-  const getStyle = useCallback(
+  const getSameCharacterStyle = useCallback(
     (char: string, property: 'backgroundColor' | 'color') => {
       const style = {
         backgroundColor: {
           default: characterColorObj[char].light,
           disable: '#374151',
-          hover: characterColorObj[char].light
+          select: characterColorObj[char].light
         },
         color: {
           default: characterColorObj[char].dark,
           disable: '#4b5563',
-          hover: characterColorObj[char].dark
+          select: characterColorObj[char].dark
         }
       } as const
 
       const propertyValue = style[property]
+      const haveDuplicate = characterCountObj[char] > 1
 
-      if (characterCountObj[char] > 1) {
-        return selectedChar
-          ? selectedChar === char
-            ? propertyValue.hover
-            : propertyValue.disable
+      if (haveDuplicate) {
+        return selectedChar === char
+          ? propertyValue.select
           : propertyValue.default
       } else {
         return propertyValue.disable
@@ -87,9 +86,9 @@ const CharactersCard = (props: CharactersCardWrapperProps) => {
               onClick={() => onCardClick(params)}
               initial={false}
               animate={{
-                backgroundColor: getStyle(char, 'backgroundColor'),
-                color: getStyle(char, 'color'),
-                scale: haveDuplicate && selectedCharId === id ? 1.1 : 1
+                backgroundColor: getSameCharacterStyle(char, 'backgroundColor'),
+                color: getSameCharacterStyle(char, 'color'),
+                scale: haveDuplicate && isSameCharacterCard ? 1.1 : 1
               }}
               style={{
                 boxShadow: isSameCharacterCard ? '#94a3b8 0px 2px 8px' : 'none',

@@ -87,23 +87,13 @@ const RemoveDuplicate = () => {
       })
       dispatch({ type: 'update_charactersObject', payload: newCharacters })
 
-      let updateSelectPayload
-      if (!haveAnyDuplicate) {
-        updateSelectPayload = {
+      dispatch({
+        type: 'update_select',
+        payload: {
           selectedIndex: newSelectIndex,
           selectedChar: newCharacters[newSelectIndex].char,
           selectedCharId: newCharacters[newSelectIndex].id
         }
-      } else {
-        updateSelectPayload = {
-          selectedIndex: -1,
-          selectedChar: '',
-          selectedCharId: -1
-        }
-      }
-      dispatch({
-        type: 'update_select',
-        payload: updateSelectPayload
       })
     },
     [characters, charactersCount, dispatch]
