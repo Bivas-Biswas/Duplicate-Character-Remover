@@ -1,45 +1,33 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 
 import { CharacterColors, CharacterObject } from '../removeduplicate.types'
 
 type CharactersCardWrapperProps = {
   characterColorObj: Record<string, CharacterColors>
   characters: CharacterObject[]
-  setCharacters: React.Dispatch<React.SetStateAction<CharacterObject[] | null>>
   characterCountObj: Record<string, number>
+  hoverChar: CharacterObject | null
+  setHoverChar: React.Dispatch<React.SetStateAction<CharacterObject | null>>
+  handleRemoveDuplicate: (_charObj: CharacterObject) => void
 }
 
 const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
-  const { characterColorObj, characters, setCharacters, characterCountObj } =
-    props
-
-  const [hoverChar, setHoverChar] = useState<CharacterObject | null>(null)
-
-  const handleRemoveDuplicate = useCallback(
-    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      const { char, id } = event.currentTarget.dataset
-
-      if (!char || !id) return
-
-      const newCharacters = characters.filter((charObj) => {
-        characterCountObj[charObj.char] = 1
-        if (charObj.char === char) {
-          return charObj.id === parseInt(id)
-        } else {
-          return true
-        }
-      })
-
-      setCharacters(newCharacters)
-      setHoverChar(null)
-    },
-    [characters, characterCountObj, setCharacters]
-  )
+  const {
+    characterColorObj,
+    characters,
+    characterCountObj,
+    hoverChar,
+    setHoverChar,
+    handleRemoveDuplicate
+  } = props
 
   const getStyle = useCallback(
-    (char: string, property: 'backgroundColor' | 'color' | 'scale') => {
+    (
+      char: string,
+      property: 'backgroundColor' | 'color' | 'scale' | 'border'
+    ) => {
       const style = {
         backgroundColor: {
           default: characterColorObj[char].light,
@@ -55,6 +43,11 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
           default: 1,
           disable: 1,
           hover: 1.1
+        },
+        border: {
+          default: 'none',
+          disable: 'none',
+          hover: 'red solid 2px'
         }
       } as const
 
@@ -74,7 +67,7 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
   )
 
   return (
-    <div className={'flex flex-wrap gap-4 max-w-2xl justify-center'}>
+    <div className={'flex flex-wrap gap-3 max-w-2xl justify-center'}>
       <AnimatePresence>
         {characters.map((charObj) => {
           const { char, id } = charObj
@@ -95,12 +88,22 @@ const CharactersCardWrapper = (props: CharactersCardWrapperProps) => {
               onHoverEnd={() => {
                 setHoverChar(null)
               }}
-              onClick={handleRemoveDuplicate}
+              // role="button"
+              // aria-pressed={id === selectedIndex}
+              // tabIndex={0}
+              onClick={() => handleRemoveDuplicate({ char, id })}
               initial={false}
+              onKeyPress={(event) => {
+                if (event.key === 'Enter') {
+                  handleRemoveDuplicate({ char, id })
+                }
+              }}
               animate={{
                 backgroundColor: getStyle(char, 'backgroundColor') as string,
                 color: getStyle(char, 'color') as string,
-                scale: getStyle(char, 'scale')
+                scale: hoverChar && hoverChar.id === id ? 1.1 : 1,
+                border:
+                  hoverChar && hoverChar.id === id ? 'red solid 2px' : 'none'
               }}
               className={clsx(
                 'relative w-14 h-14 sm:w-20 sm:h-20 rounded font-medium text-4xl sm:text-6xl flex items-center justify-center overflow-hidden',

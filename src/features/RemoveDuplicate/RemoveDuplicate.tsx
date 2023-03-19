@@ -1,5 +1,6 @@
 import { RemoveWhiteSpaceModal } from 'components'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useKeyPress } from 'hooks'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CharacterObject } from 'types'
 import {
@@ -67,6 +68,53 @@ const RemoveDuplicate = () => {
   const showCharactersCardWrapper =
     characterCountObj && characterColorObj && characters
 
+  const [selectedIndex, setSelectedIndex] = useState(-1)
+  const [hoverChar, setHoverChar] = useState<CharacterObject | null>(null)
+
+  const handleRemoveDuplicate = useCallback(
+    ({ char, id }: CharacterObject) => {
+      if (!characters || !characterCountObj) return
+
+      const newCharacters = characters.filter((charObj) => {
+        characterCountObj[charObj.char] = 1
+        if (charObj.char === char) {
+          return charObj.id === id
+        } else {
+          return true
+        }
+      })
+
+      setCharacters(newCharacters)
+      setHoverChar(null)
+    },
+    [characters, setCharacters, setHoverChar, characterCountObj]
+  )
+
+  useKeyPress(({ key }) => {
+    if (!characters) return
+    let newIndex = 0
+    switch (key) {
+      case 'ArrowLeft':
+        newIndex =
+          selectedIndex !== 0 && selectedIndex !== -1
+            ? selectedIndex - 1
+            : characters.length - 1
+        break
+      case 'ArrowRight':
+        newIndex =
+          selectedIndex !== characters.length - 1 ? selectedIndex + 1 : 0
+        break
+
+      case 'Enter':
+        handleRemoveDuplicate(characters[selectedIndex])
+        return
+      default:
+        return null
+    }
+    setHoverChar(characters[newIndex])
+    setSelectedIndex(newIndex)
+  })
+
   if (isRemoveWhiteSpaceModalOpen) {
     return (
       <RemoveWhiteSpaceModal
@@ -97,10 +145,12 @@ const RemoveDuplicate = () => {
       {/* </div> */}
       {showCharactersCardWrapper && (
         <CharactersCardWrapper
+          handleRemoveDuplicate={handleRemoveDuplicate}
+          hoverChar={hoverChar}
+          setHoverChar={setHoverChar}
           characterCountObj={characterCountObj}
           characterColorObj={characterColorObj}
           characters={characters}
-          setCharacters={setCharacters}
         />
       )}
     </div>

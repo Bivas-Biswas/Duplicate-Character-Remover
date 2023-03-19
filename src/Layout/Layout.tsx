@@ -8,7 +8,7 @@ export type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className={'bg-background text-secondary'}>
+    <div className={'bg-background text-secondary overflow-hidden'}>
       <div className={'flex flex-col min-h-screen'}>
         <Navbar />
         <div
