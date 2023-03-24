@@ -1,10 +1,12 @@
 import { Layout } from 'Layout'
-import React, { Suspense } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import { Loading } from '../components'
 
 import routes from './routes'
+
+const Page404Lazy = lazy(() => import('pages/Page404'))
 
 const Routers = () => {
   return (
@@ -21,6 +23,7 @@ const Routers = () => {
               />
             )
           })}
+          <Route path={'*'} element={<Page404Lazy />} />
         </Routes>
       </Suspense>
     </Layout>

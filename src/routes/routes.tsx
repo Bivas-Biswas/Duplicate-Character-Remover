@@ -6,13 +6,11 @@ import { HomePage, RemoveDuplicatePage } from '../pages'
 const AboutPageLazy = lazy(() => import('pages/About'))
 const ContactPageLazy = lazy(() => import('pages/Contact'))
 const TestPageLazy = lazy(() => import('pages/Test'))
-const Page404Lazy = lazy(() => import('pages/Page404'))
 
 const routes: RouteProps[] = [
   {
     path: '/',
-    element: <HomePage />,
-    errorElement: <Page404Lazy />
+    element: <HomePage />
   },
   {
     path: '/:string',
