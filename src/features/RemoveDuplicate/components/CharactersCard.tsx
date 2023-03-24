@@ -34,7 +34,11 @@ const CharactersCard = (props: CharactersCardWrapperProps) => {
   } = props
 
   const getSameCharacterStyle = useCallback(
-    (char: string, property: 'backgroundColor' | 'color') => {
+    (
+      char: string,
+      property: 'backgroundColor' | 'color',
+      haveDuplicate: boolean
+    ) => {
       const style = {
         backgroundColor: {
           default: characterColorObj[char].light,
@@ -49,17 +53,19 @@ const CharactersCard = (props: CharactersCardWrapperProps) => {
       } as const
 
       const propertyValue = style[property]
-      const haveDuplicate = characterCountObj[char] > 1
 
       if (haveDuplicate) {
+        if (selectedCharId === -1) {
+          return propertyValue.default
+        }
         return selectedChar === char
           ? propertyValue.select
-          : propertyValue.default
+          : propertyValue.disable
       } else {
         return propertyValue.disable
       }
     },
-    [characterColorObj, characterCountObj, selectedChar]
+    [characterColorObj, selectedChar, selectedCharId]
   )
 
   return (
@@ -81,13 +87,17 @@ const CharactersCard = (props: CharactersCardWrapperProps) => {
                 haveDuplicate && onHoverStart(params)
               }}
               onHoverEnd={() => {
-                onHoverEnd(params)
+                haveDuplicate && onHoverEnd(params)
               }}
               onClick={() => onCardClick(params)}
               initial={false}
               animate={{
-                backgroundColor: getSameCharacterStyle(char, 'backgroundColor'),
-                color: getSameCharacterStyle(char, 'color'),
+                backgroundColor: getSameCharacterStyle(
+                  char,
+                  'backgroundColor',
+                  haveDuplicate
+                ),
+                color: getSameCharacterStyle(char, 'color', haveDuplicate),
                 scale: haveDuplicate && isSameCharacterCard ? 1.1 : 1
               }}
               style={{
