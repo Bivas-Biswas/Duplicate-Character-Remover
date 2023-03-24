@@ -1,4 +1,10 @@
 import { useReducer } from 'react'
+import {
+  checkRemovedAllDuplicateOrNot,
+  getCharacterWiseRandomColors,
+  getCountCharMap,
+  hasWhiteSpace
+} from 'utils'
 
 import { CharacterColors, CharacterObject } from '../removeduplicate.types'
 
@@ -29,34 +35,10 @@ const initialState: initialStateType = {
   charactersCount: {},
   string: '',
   haveWhiteSpace: false,
-  haveDuplicate: false
+  haveDuplicate: true
 }
 
 type ACTIONTYPE =
-  | {
-      type: 'update_have_duplicate'
-      payload: initialStateType['haveDuplicate']
-    }
-  | {
-      type: 'update_characters_count'
-      payload: initialStateType['charactersCount']
-    }
-  | {
-      type: 'assign_color_to_character'
-      payload: initialStateType['charactersColor']
-    }
-  | {
-      type: 'update_have_white_space'
-      payload: initialStateType['haveWhiteSpace']
-    }
-  | {
-      type: 'update_charactersObject'
-      payload: initialStateType['characters']
-    }
-  | {
-      type: 'create_charactersObject'
-      payload: string
-    }
   | {
       type: 'ArrowLeft'
     }
@@ -64,18 +46,28 @@ type ACTIONTYPE =
       type: 'ArrowRight'
     }
   | {
-      type: 'update_select'
+      type: 'on_hover'
       payload: {
-        selectedIndex: number
-        selectedChar: string
-        selectedCharId: number
-      }
+        isHover: boolean
+        index: number
+      } & CharacterObject
+    }
+  | {
+      type: 'initialize_variables'
+      payload: string
+    }
+  | {
+      type: 'remove_duplicate'
+      payload: CharacterObject
+    }
+  | {
+      type: 'on_next'
+      payload: string
     }
   | {
       type: 'update_string'
       payload: string
     }
-
 const removeDuplicateReducer = (
   state: initialStateType,
   action: ACTIONTYPE
@@ -84,49 +76,87 @@ const removeDuplicateReducer = (
   let newSelectedChar
   let newSelectedCharId
   let newCharacters
+  let string_param = ''
+  let newSelectIndex = -1
+  let id = -1
+  let char = ''
+  let haveAnyDuplicate = true
+  let isHover = false
+  let index = -1
 
   switch (action.type) {
-    case 'update_characters_count':
+    case 'on_next':
       return {
         ...state,
-        charactersCount: action.payload
+        haveWhiteSpace: false,
+        string: action.payload
       }
-    case 'assign_color_to_character':
+
+    case 'remove_duplicate':
+      char = action.payload.char
+      id = action.payload.id
+
+      if (state.charactersCount[char] === 1 || !char) return { ...state }
+
+      newCharacters = state.characters.filter((charObj) => {
+        if (charObj.char === char) {
+          return charObj.id === id
+        } else {
+          return true
+        }
+      })
+
+      newSelectIndex = newCharacters.findIndex((charObj) => charObj.id === id)
+
+      haveAnyDuplicate = checkRemovedAllDuplicateOrNot(
+        newCharacters.map((charObj) => charObj.char).join('')
+      )
+
       return {
         ...state,
-        charactersColor: action.payload
+        charactersCount: {
+          ...state.charactersCount,
+          [char]: 1
+        },
+        haveDuplicate: haveAnyDuplicate,
+        characters: newCharacters,
+        selectedIndex: newSelectIndex,
+        selectedChar: !haveAnyDuplicate
+          ? newCharacters[newSelectIndex].char
+          : DEFAULT_VALUE.selectedChar,
+        selectedCharId: newCharacters[newSelectIndex].id
       }
-    case 'update_have_duplicate':
+    case 'initialize_variables':
+      string_param = action.payload
+
       return {
         ...state,
-        haveDuplicate: action.payload
+        haveWhiteSpace: hasWhiteSpace(string_param),
+        haveDuplicate: checkRemovedAllDuplicateOrNot(string_param),
+        charactersColor: getCharacterWiseRandomColors(string_param),
+        characters: string_param.split('').map((char, idx) => ({
+          char,
+          id: idx + 1
+        })),
+        charactersCount: getCountCharMap(string_param),
+        string: string_param
       }
-    case 'update_have_white_space':
-      return { ...state, haveWhiteSpace: action.payload }
     case 'update_string':
       return {
         ...state,
         string: action.payload
       }
-    case 'update_select':
+    case 'on_hover':
+      isHover = action.payload.isHover
+      char = action.payload.char
+      id = action.payload.id
+      index = action.payload.index
       return {
         ...state,
-        selectedCharId: action.payload.selectedCharId,
-        selectedIndex: action.payload.selectedIndex,
-        selectedChar: action.payload.selectedChar
+        selectedIndex: isHover ? index : DEFAULT_VALUE.selectedIndex,
+        selectedChar: isHover ? char : DEFAULT_VALUE.selectedChar,
+        selectedCharId: isHover ? id : DEFAULT_VALUE.selectedCharId
       }
-    case 'create_charactersObject':
-      newCharacters = action.payload.split('').map((char, idx) => ({
-        char,
-        id: idx + 1
-      }))
-      return {
-        ...state,
-        characters: newCharacters
-      }
-
-    case 'update_charactersObject':
-      return { ...state, characters: action.payload }
 
     case 'ArrowLeft':
       newSelectedIndex =

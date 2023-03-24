@@ -1,13 +1,13 @@
 const checkRemovedAllDuplicateOrNot = (string: string) => {
-  const alreadyVisitChar: Record<string, boolean> = {}
+  const alreadyVisitChar: string[] = []
   for (const char of string.split('')) {
-    if (alreadyVisitChar[char]) {
-      return false
+    if (alreadyVisitChar.includes(char)) {
+      return true
     } else {
-      alreadyVisitChar[char] = true
+      alreadyVisitChar.push(char)
     }
   }
-  return true
+  return false
 }
 
 export { checkRemovedAllDuplicateOrNot }
