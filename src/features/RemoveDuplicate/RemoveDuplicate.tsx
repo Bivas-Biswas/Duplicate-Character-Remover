@@ -1,6 +1,6 @@
 import { RemoveWhiteSpaceModal } from 'components'
 import { useKeyPress } from 'hooks'
-import React, { useCallback, useLayoutEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CharacterObject } from 'types'
 
@@ -24,7 +24,7 @@ const RemoveDuplicate = () => {
   } = state
   const navigate = useNavigate()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!string_param) return
     dispatch({ type: 'initialize_variables', payload: string_param })
   }, [dispatch, string_param])
