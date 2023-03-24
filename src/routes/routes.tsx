@@ -1,8 +1,8 @@
 import React, { lazy } from 'react'
 import { RouteProps } from 'react-router-dom'
 
-const HomePageLazy = lazy(() => import('pages/Home'))
-const RemoveDuplicatePageLazy = lazy(() => import('pages/RemoveDuplicate'))
+import { HomePage, RemoveDuplicatePage } from '../pages'
+
 const AboutPageLazy = lazy(() => import('pages/About'))
 const ContactPageLazy = lazy(() => import('pages/Contact'))
 const TestPageLazy = lazy(() => import('pages/Test'))
@@ -11,12 +11,12 @@ const Page404Lazy = lazy(() => import('pages/Page404'))
 const routes: RouteProps[] = [
   {
     path: '/',
-    element: <HomePageLazy />,
+    element: <HomePage />,
     errorElement: <Page404Lazy />
   },
   {
     path: '/:string',
-    element: <RemoveDuplicatePageLazy />
+    element: <RemoveDuplicatePage />
   },
   {
     path: '/about',
