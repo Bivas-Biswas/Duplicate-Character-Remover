@@ -59,7 +59,7 @@ const Home = () => {
         <span className="text-4xl sm:text-5xl">
           Say{' '}
           <span className="underline decoration-sky-500 text-gray-200 font-semibold">
-            Goodbye
+            Goodbye{' '}
           </span>
           to Duplicate Characters in Your Text with
         </span>
