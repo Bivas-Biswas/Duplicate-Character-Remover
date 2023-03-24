@@ -23,17 +23,17 @@ const SuccessModal = ({
         Duplicates removed! 🥳
       </h3>
       <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           <p className="text-lg">Orginal</p>
-          <p className="bg-gray-600 w-max px-2 rounded-sm text-lg">
-            {originalString}
-          </p>
+          <div className="bg-gray-600 rounded-sm px-2">
+            <p className="text-lg break-words">{originalString}</p>
+          </div>
         </div>
-        <div>
+        <div className="flex flex-col gap-1">
           <p className="text-lg">Resultant</p>
-          <p className="bg-gray-600 w-max px-2 rounded-sm text-lg">
-            {resultantString}
-          </p>
+          <div className="bg-gray-600 rounded-sm px-2">
+            <p className="text-lg break-words">{resultantString}</p>
+          </div>
         </div>
       </div>
       <div className="flex flex-row justify-end gap-4">
