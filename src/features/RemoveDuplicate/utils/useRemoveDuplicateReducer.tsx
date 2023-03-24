@@ -2,6 +2,12 @@ import { useReducer } from 'react'
 
 import { CharacterColors, CharacterObject } from '../removeduplicate.types'
 
+export const DEFAULT_VALUE = {
+  selectedIndex: -1,
+  selectedChar: '',
+  selectedCharId: -1
+} as const
+
 type initialStateType = {
   string: string
   characters: CharacterObject[]
@@ -16,9 +22,9 @@ type initialStateType = {
 
 const initialState: initialStateType = {
   characters: [],
-  selectedIndex: -1,
-  selectedChar: '',
-  selectedCharId: -1,
+  selectedIndex: DEFAULT_VALUE.selectedIndex,
+  selectedChar: DEFAULT_VALUE.selectedChar,
+  selectedCharId: DEFAULT_VALUE.selectedCharId,
   charactersColor: {},
   charactersCount: {},
   string: '',
@@ -142,7 +148,7 @@ const removeDuplicateReducer = (
         return {
           ...state,
           selectedIndex: newSelectedIndex,
-          selectedChar: '',
+          selectedChar: DEFAULT_VALUE.selectedChar,
           selectedCharId: newSelectedCharId
         }
 
@@ -165,7 +171,7 @@ const removeDuplicateReducer = (
         return {
           ...state,
           selectedIndex: newSelectedIndex,
-          selectedChar: '',
+          selectedChar: DEFAULT_VALUE.selectedChar,
           selectedCharId: newSelectedCharId
         }
     default:

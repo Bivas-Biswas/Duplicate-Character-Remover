@@ -1,4 +1,6 @@
-export { default as CharactersCard } from './CharactersCard'
-export * from './CharactersCard'
+export { default as CharacterCard } from './CharacterCard'
+export * from './CharacterCard'
+export { default as CharacterCardWrapper } from './CharacterCardWrapper'
+export * from './CharacterCardWrapper'
 export { default as SuccessModal } from './SuccessModal'
 export * from './SuccessModal'

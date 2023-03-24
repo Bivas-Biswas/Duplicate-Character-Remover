@@ -1,6 +1,6 @@
 import { RemoveWhiteSpaceModal } from 'components'
 import { useKeyPress } from 'hooks'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useLayoutEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CharacterObject } from 'types'
 import {
@@ -10,8 +10,9 @@ import {
   hasWhiteSpace
 } from 'utils'
 
-import { CharactersCard, SuccessModal } from './components'
-import { useRemoveDuplicateReducer } from './utils'
+import CharacterCard from './components/CharacterCard'
+import { CharacterCardWrapper, SuccessModal } from './components'
+import { DEFAULT_VALUE, useRemoveDuplicateReducer } from './utils'
 
 const RemoveDuplicate = () => {
   const { string: string_param } = useParams()
@@ -21,7 +22,6 @@ const RemoveDuplicate = () => {
     characters,
     selectedChar,
     selectedCharId,
-    selectedIndex,
     haveWhiteSpace,
     string,
     charactersColor,
@@ -30,7 +30,7 @@ const RemoveDuplicate = () => {
   } = state
   const navigate = useNavigate()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!string_param) return
 
     dispatch({ type: 'update_string', payload: string_param })
@@ -91,7 +91,9 @@ const RemoveDuplicate = () => {
         type: 'update_select',
         payload: {
           selectedIndex: newSelectIndex,
-          selectedChar: newCharacters[newSelectIndex].char,
+          selectedChar: haveAnyDuplicate
+            ? newCharacters[newSelectIndex].char
+            : DEFAULT_VALUE.selectedChar,
           selectedCharId: newCharacters[newSelectIndex].id
         }
       })
@@ -146,37 +148,32 @@ const RemoveDuplicate = () => {
           resultantString={characters.map((charObj) => charObj.char).join('')}
         />
       )}
-
-      <CharactersCard
-        selectedCharId={selectedCharId}
-        selectedChar={selectedChar}
-        onHoverStart={({ char, id }) => {
-          dispatch({
-            type: 'update_select',
-            payload: {
-              selectedIndex,
-              selectedChar: char,
-              selectedCharId: id
-            }
-          })
-        }}
-        onHoverEnd={() => {
-          dispatch({
-            type: 'update_select',
-            payload: {
-              selectedIndex,
-              selectedChar: '',
-              selectedCharId: -1
-            }
-          })
-        }}
-        onCardClick={({ char, id }) => {
-          handleRemoveDuplicate({ char, id })
-        }}
-        characterCountObj={charactersCount}
-        characterColorObj={charactersColor}
-        characters={characters}
-      />
+      <CharacterCardWrapper>
+        {characters.map(({ char, id }, idx) => (
+          <CharacterCard
+            key={id}
+            char={char}
+            colors={charactersColor[char]}
+            haveDuplicate={charactersCount[char] > 1}
+            id={id}
+            onClick={() => {
+              handleRemoveDuplicate({ char, id })
+            }}
+            onHover={(isHover) => {
+              dispatch({
+                type: 'update_select',
+                payload: {
+                  selectedIndex: isHover ? idx : DEFAULT_VALUE.selectedIndex,
+                  selectedChar: isHover ? char : DEFAULT_VALUE.selectedChar,
+                  selectedCharId: isHover ? id : DEFAULT_VALUE.selectedCharId
+                }
+              })
+            }}
+            selectedChar={selectedChar}
+            selectedCharId={selectedCharId}
+          />
+        ))}
+      </CharacterCardWrapper>
     </div>
   )
 }
