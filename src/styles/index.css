@@ -13,3 +13,43 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
   @apply bg-gray-600 rounded-full;
 }
+
+/*loading screen*/
+.loading {
+  @apply flex items-center justify-center h-full flex-1;
+}
+
+.loading-bar {
+  width: 4px;
+  height: 18px;
+  margin: 0 8px;
+  border-radius: 4px;
+  animation: loading 1s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1, 2.5);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+.loading-bar:nth-child(1) {
+  background: #ff0;
+}
+
+.loading-bar:nth-child(2) {
+  background: #0ff;
+}
+
+.loading-bar:nth-child(3) {
+  background: #f0f;
+}
+
+.loading-bar:nth-child(4) {
+  background: #0f0;
+}
