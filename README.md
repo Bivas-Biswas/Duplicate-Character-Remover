@@ -3,7 +3,7 @@
 <table>
     <p align="center">
         <a href="https://duplicate-character-remover.vercel.app">
-            <img src="readme/logo512.png" alt="Duplicate Character Remover app logo" width="20%" align="center" />
+            <img src="readme/logo512.png" alt="Duplicate Character Remover app logo" width="10%" align="center" />
         </a>
     </p>
     <h3 align="center">Duplicate Character Remover</h3>
@@ -18,9 +18,9 @@
 # 🛒Table of Contents
 
 - [About The Project](#about-the-project)
-  - [Showcase](#showcase)
-  - [Built With](#built-with)
-  - [Features](#features)
+    - [Showcase](#showcase)
+    - [Built With](#built-with)
+    - [Features](#features)
 - [How to run](#how-to-run)
 - [Basic Structure of the Project](#basic-structure-of-the-project)
 
@@ -32,32 +32,21 @@ It is designed to be fast, efficient, and easy to use. Simply paste your text in
 
 ## 📸Showcase
 
-<table align="center">
-    <tr>
-        <td align="center">
-            <a href="https://duplicate-character-remover.vercel.app">
-                <img src="readme/home.png" alt="homepage" />
-                Home Page
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td align="center">
-            <a href="https://duplicate-character-remover.vercel.app/abacbabd">
-                <img src="readme/remove-duplicate.png" alt="remove duplicate view" />
-Remove Duplicate Page
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td align="center">
-            <a href="https://duplicate-character-remover.vercel.app/contact">
-                <img src="readme/contact.png" alt="contact duplicate view" />
-Contact Page
-            </a>
-        </td>
-    </tr>
-</table>
+
+- <p>Home Page</p>
+- <a href="https://duplicate-character-remover.vercel.app">
+     <img src="readme/home.png" alt="homepage" width="50%"/>
+  </a>
+
+- <p>Remove Duplicate Page</p>
+- <a href="https://duplicate-character-remover.vercel.app/abacbabd">
+    <img src="readme/remove-duplicate.png" alt="remove duplicate view" width="50%"/>
+ </a>
+
+- <p>Contact Page</p>
+- <a href="https://duplicate-character-remover.vercel.app/contact">
+     <img src="readme/contact.png" alt="contact duplicate view" width="50%"/>
+ </a>
 
 ## 🛠Built With
 
@@ -82,7 +71,7 @@ Contact Page
 
 - <table align="center">
         <tr>
-            <img src="readme/empty.png" alt="homepage" />
+            <img src="readme/empty.png" alt="homepage" width="50%"/>
         </tr>
     </table>
 </details>
@@ -94,7 +83,7 @@ Contact Page
 
 - <table align="center">
         <tr>
-            <img src="readme/only-space.png" alt="homepage" />
+            <img src="readme/only-space.png" alt="homepage" width="50%"/>
         </tr>
     </table>
 </details>
@@ -103,10 +92,10 @@ Contact Page
     <summary>
         If Input Field <b>contain</b> space characters, show a Modal
     </summary>
-   
+
 - <table align="center">
         <tr>
-            <img src="readme/with-space-before.png" alt="If Input Field contain space modal screenshot" />
+            <img src="readme/with-space-before.png" alt="If Input Field contain space modal screenshot" width="50%" />
             <p align="center">warning Modal screenshot input contain white space</p>
         </tr>
     </table>
@@ -127,13 +116,9 @@ Contact Page
         Cards for the same characters have same background color <code>Tailwind colors only</code>
     </summary>
 
- - `TailwindCSS` provides 50 to 900 color shade, so Here used a light dark combination `50-500` `100-600` `...` `400-900`. Randomly choose from this color only.
+- `TailwindCSS` provides 50 to 900 color shade, so Here used a light dark combination `50-500` `100-600` `...` `400-900`. Randomly choose from this color only.
 
- - <table align="center">
-    <tr>
-        <img src="readme/colors.png" alt="homepage" />
-    </tr>
-    </table>
+- <img src="readme/colors.png" alt="" width="55%"/>
 
 - character `'a'` have two shade **background-color** `light``yellow-100` `#FEF9C3` and **color** `dark` `yellow-600` `#CA8A04`
 - character `'b'` have two shade **background-color** `light` `red-300` `#FCA5A5` and **color** `dark` `red-800` `#991B1B`
@@ -145,11 +130,7 @@ Contact Page
         Only selected character is <code>Highlighted</code>
     </summary>
 
-- <table align="center">
-        <tr>
-            <img src="readme/high-lighted.gif" alt="" />
-        </tr>
-    </table>
+- <img src="readme/high-lighted.gif" alt="" />
 
 - Here we can see only selected character `a` Highlighted
 </details>
@@ -159,11 +140,7 @@ Contact Page
         <code>Disabled</code> UI card if not duplicate present of a particular character
     </summary>
 
-- <table align="center">
-        <tr>
-            <img src="readme/disabled.png" alt="" />
-        </tr>
-    </table>
+- <img src="readme/disabled.png" alt="" width="55%"/>
 
 - Here we can see character `c` and `d` have no duplicate
 </details>
@@ -173,11 +150,7 @@ Contact Page
         <code>Delete</code> all duplicate instances of the chosen character in the string and only the clicked instance of the character remains on the screen
     </summary>
 
-- <table align="center">
-        <tr>
-            <img src="readme/duplicate.gif" alt="" />
-        </tr>
-    </table>
+- <img src="readme/duplicate.gif" alt="" width="50%"/>
 
 - here we selected character `a` at index of `5` after click remain a character instance removed the new index of `a` become `3`
 </details>
@@ -197,11 +170,7 @@ Contact Page
         <code>Successfully</code> Removed Duplicate Modal
     </summary>
 
-- <table align="center">
-        <tr>
-            <img src="readme/success.png" alt="" />
-        </tr>
-    </table>
+- <img src="readme/success.png" alt="" width="50%"/>
 
 - We can see the original string and resultant string in the Modal.
 - `Home` button to go back to the home page.
@@ -219,7 +188,7 @@ Contact Page
     ```
 
 3. Start the dev server
-    
+
     ```bash
     pnpm dev
     ```
