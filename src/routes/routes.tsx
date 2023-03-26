@@ -3,7 +3,7 @@ import { RouteProps } from 'react-router-dom'
 
 import { HomePage, RemoveDuplicatePage } from '../pages'
 
-const AboutPageLazy = lazy(() => import('pages/About'))
+// const AboutPageLazy = lazy(() => import('pages/About'))
 const ContactPageLazy = lazy(() => import('pages/Contact'))
 const TestPageLazy = lazy(() => import('pages/Test'))
 
@@ -16,10 +16,10 @@ const routes: RouteProps[] = [
     path: '/:string',
     element: <RemoveDuplicatePage />
   },
-  {
-    path: '/about',
-    element: <AboutPageLazy />
-  },
+  // {
+  //   path: '/about',
+  //   element: <AboutPageLazy />
+  // },
   {
     path: '/contact',
     element: <ContactPageLazy />
