@@ -12,11 +12,11 @@ const routes = [
     label: 'Home',
     id: 'home'
   },
-  {
-    to: '/about',
-    label: 'About',
-    id: 'about'
-  },
+  // {
+  //   to: '/about',
+  //   label: 'About',
+  //   id: 'about'
+  // },
   {
     to: '/contact',
     label: 'Contact',
