@@ -35,7 +35,6 @@ export const getCharacterWiseRandomColors = (string: string) => {
         // Recursively generate number
         return generateUniqueRandom()
       } else {
-        console.error('No more colors available.')
         return {
           light: '',
           dark: ''
