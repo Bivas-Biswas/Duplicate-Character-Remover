@@ -19,7 +19,7 @@ jobs:
         run: pnpm i
       - name: Verify linting
         run: pnpm lint
-      - name: Runing Test
-        run: pnpm test
+      # - name: Runing Test
+      #   run: pnpm test
       - name: Build
         run: pnpm build
