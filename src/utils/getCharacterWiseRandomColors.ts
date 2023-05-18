@@ -31,7 +31,7 @@ export const getCharacterWiseRandomColors = (string: string) => {
         light: lightColor
       }
     } else {
-      if (lightColorhaveIt.length < totalColorName + totalLightColorCode) {
+      if (lightColorhaveIt.length < totalColorName * totalLightColorCode) {
         // Recursively generate number
         return generateUniqueRandom()
       } else {

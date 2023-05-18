@@ -190,7 +190,7 @@ It is designed to be fast, efficient, and easy to use. Simply paste your text in
 3. Start the dev server
 
     ```bash
-    pnpm dev
+    pnpm start
     ```
 
 This will start the project at http://localhost:3000/
